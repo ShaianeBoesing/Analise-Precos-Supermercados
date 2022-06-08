@@ -15,5 +15,6 @@
 ## Autores
 
 - [@ShaianeBoesing](https://github.com/ShaianeBoesing)
+- [@juknabem](https://github.com/juknabem)
 
 
