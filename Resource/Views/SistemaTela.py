@@ -1,7 +1,6 @@
-from Resource.util import Util
+from Resource.Views.AbstractTela import AbstractTela
 
-
-class SistemaTela:
+class SistemaTela(AbstractTela):
     def __init__(self):
         pass
 
@@ -18,7 +17,7 @@ class SistemaTela:
 
         except ValueError:
             print(f'O valor precisa ser um número inteiro entre 1 e {i + 1}')
-            Util.continuar()
+            super().continuar()
             return False
 
         return menu_opcoes[opcao]
