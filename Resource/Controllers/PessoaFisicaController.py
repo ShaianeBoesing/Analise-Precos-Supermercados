@@ -1,6 +1,3 @@
-from Resource.util import Util
-
-
 class PessoaFisicaController():
     def __init__(self):
         pass
