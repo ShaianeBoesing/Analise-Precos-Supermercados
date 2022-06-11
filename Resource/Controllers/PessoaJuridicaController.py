@@ -1,6 +1,3 @@
-from Resource.util import Util
-
-
 class PessoaJuridicaController():
     def __init__(self):
         pass

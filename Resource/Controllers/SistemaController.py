@@ -1,4 +1,3 @@
-from Resource.util import Util
 from Resource.Controllers.SupermercadoController import SupermercadoController
 from Resource.Controllers.PessoaJuridicaController import PessoaJuridicaController
 from Resource.Controllers.PessoaFisicaController import PessoaFisicaController
