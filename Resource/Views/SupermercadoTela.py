@@ -1,7 +1,8 @@
 from Resource.Controllers.SupermercadoController import *
+from Resource.Views.AbstractTela import AbstractTela
 
 
-class SupermercadoTela:
+class SupermercadoTela(AbstractTela):
 
     def __init__(self, controller):
         pass
@@ -23,5 +24,3 @@ class SupermercadoTela:
     def exibir_infos_supermercado(self, Supermercado):
         pass
 
-    def exibir_confirmacao_exclusao(self, Supermercado):
-        pass
