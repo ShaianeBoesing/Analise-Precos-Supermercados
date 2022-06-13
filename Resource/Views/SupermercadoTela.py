@@ -18,8 +18,10 @@ class SupermercadoTela(AbstractTela):
 
 
     def exibir_listas_supermercados(self, supermercados: list):
+        super().exibir_mensagem("Lista de Supermercados")
         for supermercado in supermercados:
             print('- ', supermercado.nome, ' | ', supermercado.endereco)
+        super().continuar()
 
     def exibir_infos_supermercado(self, Supermercado):
         pass

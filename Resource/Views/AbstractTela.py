@@ -19,7 +19,7 @@ class AbstractTela(ABC):
 
         except ValueError:
             print(f'O valor precisa ser um número inteiro entre 1 e {i + 1}')
-            super().continuar()
+            self.continuar()
             return False
 
         return menu_opcoes[opcao]
@@ -28,4 +28,4 @@ class AbstractTela(ABC):
         print("------------------------------ SISTEMA DIZ: ---------------------------")
         print(mensagem)
         print("-----------------------------------------------------------------------")
-        super().continuar()
+        self.continuar()
