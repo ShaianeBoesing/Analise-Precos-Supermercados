@@ -6,9 +6,6 @@ class AbstractTela(ABC):
     def continuar(self):
         input('Pressione <ENTER> para continuar')
 
-    def mostra_mensagem(self, mensagem):
-        print(mensagem)
-
     def ver_menu(self, opcoes):
         menu_opcoes = [(item) for item in opcoes.keys()]
         total = len(menu_opcoes)
@@ -26,3 +23,9 @@ class AbstractTela(ABC):
             return False
 
         return menu_opcoes[opcao]
+
+    def exibir_mensagem(self, mensagem):
+        print("------------------------------ SISTEMA DIZ: ---------------------------")
+        print(mensagem)
+        print("-----------------------------------------------------------------------")
+        super().continuar()

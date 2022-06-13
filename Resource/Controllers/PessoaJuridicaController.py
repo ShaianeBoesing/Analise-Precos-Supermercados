@@ -18,7 +18,7 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             if (usuario.nome == dados["nome"]) and (usuario.email == dados["email"]):
                 return usuario
         else:
-            self.__pessoa_juridica_tela.mostra_mensagem("Nome ou Email inválidos!")
+            self.__pessoa_juridica_tela.exibir_mensagem("Nome ou Email inválidos!")
             self.__pessoa_juridica_tela.continuar()
             return None
 
