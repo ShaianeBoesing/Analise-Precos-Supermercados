@@ -4,11 +4,11 @@ from Resource.Views.PessoaJuridicaTela import PessoaJuridicaTela
 
 
 class PessoaJuridicaController(AbstratcUsuarioController):
-    def __init__(self):
+    def __init__(self, sistema):
         self.__pessoa_juridica_tela = PessoaJuridicaTela()
         self.__lista_pessoas_juridicas = []
         self.__ON = True
-
+        self.__sistema = sistema
 
     def logar(self):
         dados = self.__pessoa_juridica_tela.logar_formulario()
@@ -22,11 +22,20 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             return None
 
     def criar_usuario(self):
-        dados = self.__pessoa_juridica_tela.cadastrar_usuario_formulario()
-        novo_usuario = PessoaJuridica(dados['nome'],
-                                      dados['email'],
-                                      dados['cnpj'])
-        self.adicionar_usuario_lista(novo_usuario)
+        supermercados = self.__sistema.supermercado_controller.lista_supermercados
+        dados = self.__pessoa_juridica_tela.cadastrar_usuario_formulario(supermercados)
+        if (dados):
+            novo_usuario = PessoaJuridica(dados['nome'],
+                                          dados['email'],
+                                          dados['cnpj'],
+                                          supermercados[dados['supermercado']-1])
+
+            self.adicionar_usuario_lista(novo_usuario)
+            self.__pessoa_juridica_tela.exibir_mensagem('Usuário cadastrado com sucesso!')
+            self.__pessoa_juridica_tela.continuar()
+        else:
+            self.__pessoa_juridica_tela.exibir_mensagem('Tente novamente!')
+            self.__pessoa_juridica_tela.continuar()
 
     def adicionar_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaJuridica) and \
