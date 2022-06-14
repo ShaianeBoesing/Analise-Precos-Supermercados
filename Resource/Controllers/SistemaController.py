@@ -1,6 +1,8 @@
 from Resource.Models.PessoaJuridica import PessoaJuridica
 from Resource.Models.PessoaFisica import PessoaFisica
 from Resource.Controllers.SupermercadoController import SupermercadoController
+from Resource.Controllers.ProdutoController import ProdutoController
+from Resource.Controllers.PrecoController import PrecoController
 from Resource.Controllers.PessoaJuridicaController import PessoaJuridicaController
 from Resource.Controllers.PessoaFisicaController import PessoaFisicaController
 from Resource.Views.SistemaTela import SistemaTela
@@ -13,8 +15,10 @@ class SistemaController:
         self.__usuario_sessao = None
         self.__sistema_tela = SistemaTela()
         self.__supermercado_controller = SupermercadoController()
-        self.__pessoas_juridica_controller = PessoaJuridicaController()
+        self.__produto_controller = ProdutoController(self)
+        self.__pessoas_juridica_controller = PessoaJuridicaController(self)
         self.__pessoas_fisica_controller = PessoaFisicaController()
+        self.__preco_controller = PrecoController(self)
         self.__menu_opcoes_acesso = {
             'Acessar como Pessoa Jurídica': self.__pessoas_juridica_controller.logar,
             'Acessar como Pessoa Física': self.__pessoas_fisica_controller.logar,
@@ -23,12 +27,26 @@ class SistemaController:
             'Sair': self.sair
         }
         self.__menu_opcoes_pessoa_juridica = {
-            'Ver supermercados': self.__supermercado_controller.listar_menus,
+            'Editar Preços de Produtos': self.__produto_controller.editar_preco,
             'Deslogar': self.deslogar,
         }
         self.__menu_opcoes_pessoa_fisica = {
             'Deslogar': self.deslogar,
         }
+
+
+    @property
+    def usuario_sessao(self):
+        return self.__usuario_sessao
+
+    @property
+    def supermercado_controller(self):
+        return self.__supermercado_controller
+
+    @property
+    def preco_controller(self):
+        return self.__preco_controller
+
 
     def iniciar(self):
         self.__ON = True
@@ -58,4 +76,4 @@ class SistemaController:
         self.__ON = False
 
     def deslogar(self):
-        self.__usuario_sessao = None;
+        self.__usuario_sessao = None
