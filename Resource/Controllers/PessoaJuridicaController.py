@@ -19,6 +19,8 @@ class PessoaJuridicaController(AbstratcUsuarioController):
                 return usuario
         else:
             self.__pessoa_juridica_tela.exibir_mensagem("Nome ou Email inválidos!")
+            self.__pessoa_juridica_tela.continuar()
+
             return None
 
     def criar_usuario(self):
