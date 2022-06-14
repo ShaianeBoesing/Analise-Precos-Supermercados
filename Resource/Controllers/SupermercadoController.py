@@ -6,7 +6,8 @@ class SupermercadoController:
 
     def __init__(self):
         self.__ON = True
-        self.__lista_supermercados = []
+        self.__pre_cadastrado = Supermercado('Carvoeira', 'Rua Capitao Romualdo Barros')
+        self.__lista_supermercados = [self.__pre_cadastrado]
         self.__tela_supermercado = SupermercadoTela(self)
         self.__menu_opcoes = {
                 'Cadastrar Supermercado': self.criar_supermercado,
@@ -14,6 +15,9 @@ class SupermercadoController:
                 'Voltar': self.voltar
             }
 
+    @property
+    def lista_supermercados(self):
+        return self.__lista_supermercados;
 
     def listar_supermercados(self):
         self.__tela_supermercado.exibir_listas_supermercados(self.__lista_supermercados)
@@ -26,6 +30,7 @@ class SupermercadoController:
         )
         self.adicionar_supermercado_lista(novo_supermercado)
         self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
+        self.__tela_supermercado.continuar()
 
     def alterar_supermercado(self, supermercado):
         pass
@@ -44,6 +49,15 @@ class SupermercadoController:
     def pesquisar_supermercado(self, supermercado):
         pass
 
+    def escolher_supermercado(self):
+        supermercados = self.__lista_supermercados
+        opcao = self.__tela_supermercado.escolher_supermercado(supermercados)
+        if opcao != False:
+            return supermercados[opcao-1]
+        return False
+
+
+
     def listar_menus(self):
         self.__ON = True
         while self.__ON:
@@ -56,3 +70,4 @@ class SupermercadoController:
 
     def voltar(self):
         self.__ON = False
+
