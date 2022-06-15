@@ -29,5 +29,5 @@ class PessoaFisicaTela(AbstractTela):
     def mostrar_tela_opcoes(self):
       pass
     
-    def exibir_confirmacao_exclusao(PessoaFisica)
+    def exibir_confirmacao_exclusao(PessoaFisica):
       pass
