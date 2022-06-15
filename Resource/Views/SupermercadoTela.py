@@ -19,15 +19,22 @@ class SupermercadoTela(AbstractTela):
 
     def exibir_listas_supermercados(self, supermercados: list):
         super().exibir_mensagem("Lista de Supermercados")
-        for i in range(len(supermercados)):
-            print(i + 1, '- ', supermercados[i].nome, ' | ', supermercados[i].endereco)
+        total_supermercados = len(supermercados)
+
+        if total_supermercados:
+            for i in range(len(supermercados)):
+                print(i + 1, '- ', supermercados[i].nome, ' | ', supermercados[i].endereco)
+            return True
+        else:
+            print('Não há supermercados cadastrados!')
+            return False
 
     def escolher_supermercado(self, supermercados):
         try:
             self.exibir_listas_supermercados(supermercados)
             total = len(supermercados)
             opcao = int(input('Opção: '))
-            if opcao-1 > total:
+            if opcao > total:
                 raise ValueError(f'Valor maior que {total}')
             return opcao
         except ValueError:
@@ -37,3 +44,17 @@ class SupermercadoTela(AbstractTela):
 
     def exibir_infos_supermercado(self, Supermercado):
         pass
+
+    def exibir_confirmacao_exclusao(self):
+        print('Tem certeza que deseja excluir este supermercado?')
+        print('1 - Sim')
+        print('0 - Não')
+        try:
+            confirma = int(input('Opção: '))
+            if not(0 <= confirma <= 1):
+                raise ValueError('Valor diferente de 0 e diferente de 1')
+            return confirma
+        except ValueError:
+            super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
+            super().continuar()
+

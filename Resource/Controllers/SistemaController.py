@@ -3,6 +3,7 @@ from Resource.Models.PessoaFisica import PessoaFisica
 from Resource.Controllers.SupermercadoController import SupermercadoController
 from Resource.Controllers.ProdutoController import ProdutoController
 from Resource.Controllers.PrecoController import PrecoController
+from Resource.Controllers.CategoriaController import CategoriaController
 from Resource.Controllers.PessoaJuridicaController import PessoaJuridicaController
 from Resource.Controllers.PessoaFisicaController import PessoaFisicaController
 from Resource.Views.SistemaTela import SistemaTela
@@ -19,6 +20,7 @@ class SistemaController:
         self.__pessoas_juridica_controller = PessoaJuridicaController(self)
         self.__pessoas_fisica_controller = PessoaFisicaController()
         self.__preco_controller = PrecoController(self)
+        self.__categoria_controller = CategoriaController()
         self.__menu_opcoes_acesso = {
             'Acessar como Pessoa Jurídica': self.__pessoas_juridica_controller.logar,
             'Acessar como Pessoa Física': self.__pessoas_fisica_controller.logar,
@@ -31,6 +33,9 @@ class SistemaController:
             'Deslogar': self.deslogar,
         }
         self.__menu_opcoes_pessoa_fisica = {
+            'PRODUTOS': self.__produto_controller.listar_menus,
+            'SUPERMERCADOS': self.__supermercado_controller.listar_menus,
+            'CATEGORIA': self.__categoria_controller.listar_menus,
             'Deslogar': self.deslogar,
         }
 
