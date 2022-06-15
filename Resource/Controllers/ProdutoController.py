@@ -22,3 +22,6 @@ class ProdutoController:
                 precos_supermercado[preco.produto] = [preco.valor]
 
         return self.__tela_produto.escolher_produto(dicionario_produtos)
+
+    def listar_menus(self):
+        pass
