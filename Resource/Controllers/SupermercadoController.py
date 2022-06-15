@@ -6,8 +6,7 @@ class SupermercadoController:
 
     def __init__(self):
         self.__ON = True
-        self.__pre_cadastrado = Supermercado('Carvoeira', 'Rua Capitao Romualdo Barros')
-        self.__lista_supermercados = [self.__pre_cadastrado]
+        self.__lista_supermercados = []
         self.__tela_supermercado = SupermercadoTela(self)
         self.__menu_opcoes = {
                 'Cadastrar Supermercado': self.criar_supermercado,
@@ -32,7 +31,6 @@ class SupermercadoController:
         self.__tela_supermercado.continuar()
 
     def listar_supermercados(self):
-        print(self.__lista_supermercados)
         self.__tela_supermercado.exibir_listas_supermercados(self.__lista_supermercados)
         self.__tela_supermercado.continuar()
 
@@ -72,8 +70,6 @@ class SupermercadoController:
 
     def pesquisar_supermercado(self, supermercado):
         pass
-
-
 
 
     def listar_menus(self):
