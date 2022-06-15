@@ -12,15 +12,14 @@ class SupermercadoController:
         self.__menu_opcoes = {
                 'Cadastrar Supermercado': self.criar_supermercado,
                 'Listar Supermercados': self.listar_supermercados,
+                'Alterar Supermercado': self.alterar_supermercado,
+                'Excluir Supermercado': self.excluir_supermercado,
                 'Voltar': self.voltar
             }
 
     @property
     def lista_supermercados(self):
         return self.__lista_supermercados;
-
-    def listar_supermercados(self):
-        self.__tela_supermercado.exibir_listas_supermercados(self.__lista_supermercados)
 
     def criar_supermercado(self):
         dados_supermercado = self.__tela_supermercado.cadastrar_supermercado_formulario()
@@ -32,22 +31,25 @@ class SupermercadoController:
         self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
         self.__tela_supermercado.continuar()
 
+    def listar_supermercados(self):
+        print(self.__lista_supermercados)
+        self.__tela_supermercado.exibir_listas_supermercados(self.__lista_supermercados)
+        self.__tela_supermercado.continuar()
+
+
     def alterar_supermercado(self, supermercado):
         pass
 
-    def excluir_supermercado(self, supermercado):
-        pass
+    def excluir_supermercado(self):
+        supermercado = self.escolher_supermercado()
+        if supermercado:
+            confirma = self.__tela_supermercado.exibir_confirmacao_exclusao()
+            if confirma:
+                self.remover_supermercado_lista(supermercado)
+                self.__tela_supermercado.exibir_mensagem('Supermercado excluído com sucesso!')
+                self.__tela_supermercado.continuar()
 
-    def adicionar_supermercado_lista(self, supermercado):
-        if isinstance(supermercado, Supermercado):
-            if supermercado not in self.__lista_supermercados:
-                self.__lista_supermercados.append(supermercado)
 
-    def remover_supermercado_lista(self, supermercado):
-        pass
-
-    def pesquisar_supermercado(self, supermercado):
-        pass
 
     def escolher_supermercado(self):
         supermercados = self.__lista_supermercados
@@ -55,6 +57,22 @@ class SupermercadoController:
         if opcao != False:
             return supermercados[opcao-1]
         return False
+
+
+    def adicionar_supermercado_lista(self, supermercado):
+        if isinstance(supermercado, Supermercado):
+            if supermercado not in self.__lista_supermercados:
+                self.__lista_supermercados.append(supermercado)
+
+    def remover_supermercado_lista(self, supermercado):
+        if isinstance(supermercado, Supermercado):
+            if supermercado in self.__lista_supermercados:
+                self.__lista_supermercados.remove(supermercado)
+    # Remover Funcionários deste supermercado
+
+    def pesquisar_supermercado(self, supermercado):
+        pass
+
 
 
 
