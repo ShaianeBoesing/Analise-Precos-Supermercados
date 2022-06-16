@@ -21,6 +21,7 @@ class SupermercadoController:
         return self.__lista_supermercados;
 
     def criar_supermercado(self):
+        self.__tela_supermercado.exibir_mensagem('FORMULÁRIO DE SUPERMERCADO: ')
         dados_supermercado = self.__tela_supermercado.cadastrar_supermercado_formulario()
         novo_supermercado = Supermercado(
             dados_supermercado['nome'],

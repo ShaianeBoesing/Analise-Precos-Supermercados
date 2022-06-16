@@ -2,8 +2,8 @@ from Resource.Views.AbstractTela import AbstractTela
 
 
 class PessoaJuridicaTela(AbstractTela):
-    def __init__(self):
-        pass
+    def __init__(self, controller):
+        self.__controller = controller
 
     def logar_formulario(self):
         nome = input('Nome: ')
@@ -13,26 +13,23 @@ class PessoaJuridicaTela(AbstractTela):
 
     def cadastrar_usuario_formulario(self, supermercados):
         try:
+            total_supermercados = len(supermercados)
             nome = input('Nome: ')
             email = input('Email: ')
             cnpj = input('CNPJ: ')
-            self.opcoes_supermercados(supermercados)
-            supermercado = int(input('Supermercado: '))
-            if supermercado > len(supermercados):
-                raise ValueError(f'Valor maior que {len(supermercados)}')
+            self.__controller.sistema.supermercado_controller.listar_supermercados()
+            if total_supermercados:
+                supermercado = int(input('Supermercado: '))
+                if supermercado > total_supermercados:
+                    raise ValueError(f'Valor maior que {len(supermercados)}')
+                data = {'nome': nome,
+                        'email': email,
+                        'cnpj': cnpj,
+                        'supermercado': supermercado}
+                return data
 
-            data = {'nome': nome,
-                    'email': email,
-                    'cnpj': cnpj,
-                    'supermercado': supermercado
-                    }
-            return data
-        except ValueError:
-            print(f'O valor precisa ser um número inteiro entre 1 e {len(supermercados)}')
+        except ValueError as e:
+            print(e.args[0])
             self.continuar()
             return False
 
-    def opcoes_supermercados(self, supermercados):
-        super().exibir_mensagem("Escolha uma opção")
-        for i in range(len(supermercados)):
-            print(i+1,'- ', supermercados[i].nome, ' | ', supermercados[i].endereco)

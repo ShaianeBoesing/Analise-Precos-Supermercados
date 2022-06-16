@@ -5,10 +5,15 @@ from Resource.Views.PessoaJuridicaTela import PessoaJuridicaTela
 
 class PessoaJuridicaController(AbstratcUsuarioController):
     def __init__(self, sistema):
-        self.__pessoa_juridica_tela = PessoaJuridicaTela()
+        self.__pessoa_juridica_tela = PessoaJuridicaTela(self)
         self.__lista_pessoas_juridicas = []
         self.__ON = True
         self.__sistema = sistema
+
+    @property
+    def sistema(self):
+        return self.__sistema
+
 
     def logar(self):
         dados = self.__pessoa_juridica_tela.logar_formulario()
@@ -24,6 +29,7 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             return None
 
     def criar_usuario(self):
+        self.__pessoa_juridica_tela.exibir_mensagem('FORMULÁRIO DE PESSOA JURÍDICA: ')
         supermercados = self.__sistema.supermercado_controller.lista_supermercados
         dados = self.__pessoa_juridica_tela.cadastrar_usuario_formulario(supermercados)
         if (dados):
@@ -34,9 +40,6 @@ class PessoaJuridicaController(AbstratcUsuarioController):
 
             self.adicionar_usuario_lista(novo_usuario)
             self.__pessoa_juridica_tela.exibir_mensagem('Usuário cadastrado com sucesso!')
-            self.__pessoa_juridica_tela.continuar()
-        else:
-            self.__pessoa_juridica_tela.exibir_mensagem('Tente novamente!')
             self.__pessoa_juridica_tela.continuar()
 
     def adicionar_usuario_lista(self, usuario):

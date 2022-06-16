@@ -23,6 +23,7 @@ class PessoaFisicaController():
             return None
 
     def criar_usuario(self):
+        self.__pessoa_fisica_tela.exibir_mensagem('FORMULÁRIO DE PESSOA FÍSICA: ')
         dados = self.__pessoa_fisica_tela.cadastrar_usuario_formulario()
         try:
             novo_usuario = PessoaFisica(dados['nome'],
