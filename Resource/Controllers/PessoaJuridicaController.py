@@ -5,10 +5,15 @@ from Resource.Views.PessoaJuridicaTela import PessoaJuridicaTela
 
 class PessoaJuridicaController(AbstratcUsuarioController):
     def __init__(self, sistema):
-        self.__pessoa_juridica_tela = PessoaJuridicaTela()
+        self.__pessoa_juridica_tela = PessoaJuridicaTela(self)
         self.__lista_pessoas_juridicas = []
         self.__ON = True
         self.__sistema = sistema
+
+    @property
+    def sistema(self):
+        return self.__sistema
+
 
     def logar(self):
         dados = self.__pessoa_juridica_tela.logar_formulario()
