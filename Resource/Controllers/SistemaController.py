@@ -39,7 +39,7 @@ class SistemaController:
             'Deslogar': self.deslogar,
         }
 
-
+    # GETTERS
     @property
     def usuario_sessao(self):
         return self.__usuario_sessao
@@ -52,7 +52,7 @@ class SistemaController:
     def preco_controller(self):
         return self.__preco_controller
 
-
+    # OUTROS MÉTODOS
     def iniciar(self):
         self.__ON = True
         menu_opcoes = self.__menu_opcoes_acesso
@@ -66,8 +66,6 @@ class SistemaController:
                 if isinstance(self.__usuario_sessao, PessoaFisica):
                     self.exibir_menu_sistema(self.__menu_opcoes_pessoa_fisica)
 
-
-
     def exibir_menu_sistema(self, menu_opcoes):
         while self.__usuario_sessao:
             opcao = self.__sistema_tela.ver_menu(menu_opcoes)
@@ -75,7 +73,6 @@ class SistemaController:
                 menu_opcoes[opcao]()
         else:
             self.__sistema_tela.exibir_termino_sessao()
-
 
     def sair(self):
         self.__ON = False

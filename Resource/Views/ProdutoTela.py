@@ -1,6 +1,7 @@
 from Resource.Views.AbstractTela import AbstractTela
 from Resource.Exceptions.EmptyStringException import EmptyStringException
 
+
 class ProdutoTela(AbstractTela):
     def __init__(self, controlador):
         pass
@@ -18,7 +19,7 @@ class ProdutoTela(AbstractTela):
         if len(produtos) > 0:
             i = 0
             for produto, valores in produtos.items():
-                i+=1
+                i += 1
                 print(i, '- ', produto.nome)
                 for valor in valores:
                     print(' - ', valor)
@@ -32,7 +33,7 @@ class ProdutoTela(AbstractTela):
         lista_exibida = self.exibir_produtos_precos_supermercados(produtos)
         if lista_exibida:
             opcao = int(input('Opção: '))
-            return produtos[opcao-1]
+            return produtos[opcao - 1]
         else:
             return False
 
@@ -59,7 +60,6 @@ class ProdutoTela(AbstractTela):
 
         return qualificadores
 
-
     def exibir_lista_produtos(self, produtos):
         super().exibir_mensagem("Lista de Produtos")
         total_produtos = len(produtos)
@@ -80,7 +80,7 @@ class ProdutoTela(AbstractTela):
             self.exibir_lista_produtos(produtos)
             total = len(produtos)
             opcao = int(input('Opção: '))
-            if not(0 < opcao <= total):
+            if not (0 < opcao <= total):
                 raise ValueError(f'Valor inválido')
             return opcao
         except ValueError:
@@ -88,14 +88,13 @@ class ProdutoTela(AbstractTela):
             self.continuar()
             return False
 
-
     def exibir_confirmacao_exclusao(self):
         print('Tem certeza que deseja excluir este produto?')
         print('1 - Sim')
         print('0 - Não')
         try:
             confirma = int(input('Opção: '))
-            if not(0 <= confirma <= 1):
+            if not (0 <= confirma <= 1):
                 raise ValueError('Valor diferente de 0 e diferente de 1')
             return confirma
         except ValueError:

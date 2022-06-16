@@ -8,6 +8,7 @@ class Preco:
         self.__qualificadores = qualificadores
         self.__usuario = usuario
 
+    # GETTERS E SETTERS
     @property
     def valor(self):
         return self.__valor
@@ -55,5 +56,3 @@ class Preco:
     @qualificadores.setter
     def qualificadores(self, qualificadores):
         self.__qualificadores = qualificadores
-
-

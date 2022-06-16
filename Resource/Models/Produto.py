@@ -1,11 +1,13 @@
 from Resource.Models.Qualificador import Qualificador
 
+
 class Produto:
     def __init__(self, nome, descricao, qualificadores):
         self.__nome = nome
         self.__descricao = descricao
         self.add_qualificador(qualificadores)
 
+    # GETTERS E SETTERS
     @property
     def nome(self):
         return self.__nome
@@ -25,7 +27,6 @@ class Produto:
     @property
     def qualificadores(self):
         return self.__qualificadores
-
 
     def add_qualificador(self, lista_qualificadores):
         qualificadores = []

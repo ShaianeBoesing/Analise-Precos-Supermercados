@@ -14,7 +14,7 @@ class AbstractTela(ABC):
 
         try:
             opcao = int(input('Opção: ')) - 1
-            if not( 0 <= opcao < total):
+            if not (0 <= opcao < total):
                 raise ValueError(f'Valor maior que {i + 1}')
 
         except ValueError:
@@ -28,4 +28,3 @@ class AbstractTela(ABC):
         print("------------------------------ SISTEMA DIZ: ---------------------------")
         print(mensagem)
         print("-----------------------------------------------------------------------")
-
