@@ -6,6 +6,7 @@ class Supermercado:
         self.__nome = nome
         self.__endereco = endereco
 
+    # GETTERS E SETTERS
     @property
     def nome(self):
         return self.__nome
@@ -21,4 +22,3 @@ class Supermercado:
     @endereco.setter
     def endereco(self, endereco):
         self.__endereco = endereco
-

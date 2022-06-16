@@ -4,10 +4,6 @@ from abc import ABC, abstractmethod
 class AbstratcUsuarioController(ABC):
 
     @abstractmethod
-    def listar_usuarios(self):
-        pass
-
-    @abstractmethod
     def criar_usuario(self):
         pass
 
@@ -17,6 +13,10 @@ class AbstratcUsuarioController(ABC):
 
     @abstractmethod
     def excluir_usuario(self, usuario):
+        pass
+
+    @abstractmethod
+    def listar_usuarios(self):
         pass
 
     @abstractmethod

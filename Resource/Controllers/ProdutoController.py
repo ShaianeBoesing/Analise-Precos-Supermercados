@@ -16,8 +16,24 @@ class ProdutoController:
         }
         self.__ON = True
 
-        pass
+    # GETTERS
+    @property
+    def tela_produto(self):
+        return self.__tela_produto
 
+    @property
+    def lista_produtos(self):
+        return self.__lista_produtos
+
+    @property
+    def sistema(self):
+        return self.__sistema
+
+    @property
+    def ON(self):
+        return self.__ON
+
+    # CRUD
     def criar_produto(self):
         self.__tela_produto.exibir_mensagem('FORMULÁRIO DE PRODUTO: ')
         dados_produto = self.__tela_produto.cadastrar_supermercado_formulario()
@@ -28,10 +44,6 @@ class ProdutoController:
         )
         self.adicionar_produto_lista(novo_produto)
         self.__tela_produto.exibir_mensagem("Produto cadastrado com sucesso!")
-        self.__tela_produto.continuar()
-
-    def listar_produtos(self):
-        self.__tela_produto.exibir_lista_produtos(self.__lista_produtos)
         self.__tela_produto.continuar()
 
     def alterar_produto(self):
@@ -46,17 +58,22 @@ class ProdutoController:
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
                 self.__tela_produto.continuar()
 
+    def listar_produtos(self):
+        self.__tela_produto.exibir_lista_produtos(self.__lista_produtos)
+        self.__tela_produto.continuar()
+
+    # OUTROS MÉTODOS
     def editar_preco(self):
-        opcao = self.escolher_precos_produtos()
+        opcao = self.escolher_precos_produtos_por_supermercado()
 
     def escolher_produto(self):
         produtos = self.__lista_produtos
         opcao = self.__tela_produto.escolher_produto(produtos)
         if opcao != False:
-            return produtos[opcao-1]
+            return produtos[opcao - 1]
         return False
 
-    def escolher_precos_produtos(self):
+    def escolher_precos_produtos_por_supermercado(self):
         dicionario_produtos = {}
         precos_supermercado = self.__sistema.preco_controller.buscar_precos_supermercados()
         for preco in precos_supermercado:

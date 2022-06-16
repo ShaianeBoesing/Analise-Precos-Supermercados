@@ -8,6 +8,15 @@ class PessoaJuridica(Usuario):
         self.__cnpj = cnpj
         self.__supermercado = supermercado
 
+    # GETTERS E SETTERS
+    @property
+    def cnpj(self):
+        return self.__cnpj
+
+    @cnpj.setter
+    def cnpj(self, cnpj):
+        self.__cnpj = cnpj
+
     @property
     def supermercado(self):
         return self.__supermercado
@@ -16,4 +25,3 @@ class PessoaJuridica(Usuario):
     def supermercado(self, supermercado):
         self.__supermercado = supermercado
         print((self.supermercado).nome)
-

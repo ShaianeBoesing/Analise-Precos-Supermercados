@@ -5,12 +5,6 @@ class PessoaJuridicaTela(AbstractTela):
     def __init__(self, controller):
         self.__controller = controller
 
-    def logar_formulario(self):
-        nome = input('Nome: ')
-        email = input('Email: ')
-        data = {'nome': nome, 'email': email}
-        return data
-
     def cadastrar_usuario_formulario(self, supermercados):
         try:
             total_supermercados = len(supermercados)
@@ -33,3 +27,8 @@ class PessoaJuridicaTela(AbstractTela):
             self.continuar()
             return False
 
+    def logar_formulario(self):
+        nome = input('Nome: ')
+        email = input('Email: ')
+        data = {'nome': nome, 'email': email}
+        return data
