@@ -3,7 +3,6 @@ from Resource.Views.AbstractTela import AbstractTela
 
 
 class SupermercadoTela(AbstractTela):
-
     def __init__(self, controller):
         pass
 

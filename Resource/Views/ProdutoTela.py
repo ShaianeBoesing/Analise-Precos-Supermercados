@@ -72,7 +72,7 @@ class ProdutoTela(AbstractTela):
                 print('-' * 71)
             return True
         else:
-            print('Não há supermercados cadastrados!')
+            print('Não há produtos cadastrados!')
             return False
 
     def escolher_produto(self, produtos):
