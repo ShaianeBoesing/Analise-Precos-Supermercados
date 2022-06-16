@@ -22,7 +22,7 @@ class SupermercadoTela(AbstractTela):
         total_supermercados = len(supermercados)
 
         if total_supermercados:
-            for i in range(len(supermercados)):
+            for i in range(total_supermercados):
                 print(i + 1, '- ', supermercados[i].nome, ' | ', supermercados[i].endereco)
             return True
         else:
@@ -34,7 +34,7 @@ class SupermercadoTela(AbstractTela):
             self.exibir_listas_supermercados(supermercados)
             total = len(supermercados)
             opcao = int(input('Opção: '))
-            if opcao > total:
+            if not(0< opcao <= total):
                 raise ValueError(f'Valor maior que {total}')
             return opcao
         except ValueError:
