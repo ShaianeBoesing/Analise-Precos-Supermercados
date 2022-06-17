@@ -18,7 +18,7 @@ class PessoaFisicaTela(AbstractTela):
     def editar_usuario_formulario(self):
         pass
 
-    def exibir_lista_funcionarios(self, usuarios: list):
+    def exibir_lista_usuarios(self, usuarios: list):
         super().exibir_mensagem("Lista de Usuários")
         total_usuarios = len(usuarios)
 
