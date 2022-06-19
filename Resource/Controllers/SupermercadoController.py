@@ -19,7 +19,7 @@ class SupermercadoController:
     # GETTERS
     @property
     def lista_supermercados(self):
-        return self.__lista_supermercados;
+        return self.__lista_supermercados
 
     # CRUD
     def criar_supermercado(self):

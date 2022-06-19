@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 
-
 class AbstractTela(ABC):
+    
+    @abstractmethod
+    def __init__(self) -> None:
+        super().__init__()
 
     def continuar(self):
         input('Pressione <ENTER> para continuar')

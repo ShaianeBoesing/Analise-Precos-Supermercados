@@ -3,7 +3,6 @@ from Resource.Views.AbstractTela import AbstractTela
 
 
 class SupermercadoTela(AbstractTela):
-
     def __init__(self, controller):
         pass
 
@@ -40,9 +39,6 @@ class SupermercadoTela(AbstractTela):
             print(f'O valor precisa ser um número inteiro entre 1 e {total}')
             self.continuar()
             return False
-
-    def exibir_infos_supermercado(self, Supermercado):
-        pass
 
     def exibir_confirmacao_exclusao(self):
         print('Tem certeza que deseja excluir este supermercado?')

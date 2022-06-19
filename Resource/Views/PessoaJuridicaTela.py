@@ -32,3 +32,28 @@ class PessoaJuridicaTela(AbstractTela):
         email = input('Email: ')
         data = {'nome': nome, 'email': email}
         return data
+
+    def exibir_confirmacao_exclusao(PessoaJuridica):
+        print('Tem certeza que deseja excluir este usuário?')
+        print('1 - Sim')
+        print('0 - Não')
+        try:
+            confirma = int(input('Opção: '))
+            if not (0 <= confirma <= 1):
+                raise ValueError('Valor diferente de 0 e diferente de 1')
+            return confirma
+        except ValueError:
+            super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
+            super().continuar()
+
+    def exibir_lista_usuarios(self, usuarios: list):
+        super().exibir_mensagem("Lista de Usuários")
+        total_usuarios = len(usuarios)
+
+        if total_usuarios:
+            for i in range(total_usuarios):
+                print(i + 1, '- ', usuarios[i].nome, ' | ', usuarios[i].email)
+            return True
+        else:
+            print('Não há usuários cadastrados!')
+            return False

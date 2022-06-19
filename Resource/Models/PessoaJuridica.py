@@ -15,7 +15,8 @@ class PessoaJuridica(Usuario):
 
     @cnpj.setter
     def cnpj(self, cnpj):
-        self.__cnpj = cnpj
+        if isinstance(cnpj, int):
+            self.__cnpj = cnpj
 
     @property
     def supermercado(self):
@@ -23,5 +24,5 @@ class PessoaJuridica(Usuario):
 
     @supermercado.setter
     def supermercado(self, supermercado):
-        self.__supermercado = supermercado
-        print((self.supermercado).nome)
+        if isinstance(supermercado, str):
+            self.__supermercado = supermercado

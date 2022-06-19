@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
-
+# Um método abstrato definido na classe-pai 
+# deve obrigatoriamente ser implementado pela classe-filha
 class AbstratcUsuarioController(ABC):
 
     @abstractmethod

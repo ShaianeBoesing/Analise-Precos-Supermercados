@@ -46,10 +46,17 @@ class PessoaJuridicaController(AbstratcUsuarioController):
         pass
 
     def excluir_usuario(self, usuario):
-        pass
+        usuario = self.logar()
+        if usuario:
+            confirma = self.__pessoa_juridica_tela.exibir_confirmacao_exclusao()
+            if confirma:
+                self.remover_usuario(usuario)
+                self.__pessoa_juridica_tela.exibir_mensagem('Usuário excluído com sucesso!')
+                self.__pessoa_juridica_tela.continuar()
 
     def listar_usuarios(self):
-        pass
+        self.__pessoa_juridica_tela.exibir_lista_usuarios(self.__lista_pessoas_juridicas)
+        self.__pessoa_juridica_tela.continuar()
 
     # OUTROS MÉTODOS
     def verificar_usuario(self, usuario):
@@ -78,6 +85,18 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             'Cadastrar Usuário': '',
             'Voltar': self.voltar
         }
+
+        self.__ON = True
+        while self.__ON:
+            menu_opcoes = self.__menu_opcoes
+            opcao = self.__pessoa_juridica_tela.ver_menu(menu_opcoes)
+            if opcao:
+                menu_opcoes[opcao]()
+
+    def remover_usuario(self, usuario):
+        if isinstance(usuario, PessoaJuridica):
+            if usuario in self.__lista_pessoas_juridicas:
+                self.__lista_pessoas_juridicas.remove(usuario)
 
     def voltar(self):
         self.__ON = False

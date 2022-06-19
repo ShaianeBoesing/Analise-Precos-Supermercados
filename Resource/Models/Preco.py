@@ -26,6 +26,14 @@ class Preco:
         self.__data = data
 
     @property
+    def contador(self):
+        return self.__contador
+
+    @contador.setter
+    def contador(self, contador):
+        self.__contador = contador
+
+    @property
     def produto(self):
         return self.__produto
 

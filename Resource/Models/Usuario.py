@@ -2,23 +2,28 @@ from abc import ABC, abstractmethod
 
 
 class Usuario(ABC):
+    
+    @abstractmethod
     def __init__(self, nome, email):
-        self.__nome = nome
-        self.__email = email
-
-    # GETTERS E SETTERS
+        if isinstance(nome, str):
+            self.__nome = nome
+        if isinstance(email, str):
+            self.__email = email
+    
     @property
     def nome(self):
         return self.__nome
 
     @nome.setter
-    def nome(self, nome):
-        self.__nome = nome
+    def nome(self, nome: str):
+        if isinstance(nome, str):
+            self.__nome = nome
 
     @property
     def email(self):
         return self.__email
 
     @email.setter
-    def email(self, email):
-        self.__email = email
+    def email(self, email: str):
+        if isinstance(email, str):
+            self.__email = email
