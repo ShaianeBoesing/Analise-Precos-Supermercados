@@ -34,9 +34,6 @@ class PrecoTela(AbstractTela):
             print('Não há preços cadastrados!')
             return False
 
-    def exibir_infos_precos(self):
-        pass
-
     def exibir_confirmacao_exclusao(self):
         print('Tem certeza que deseja excluir este preço?')
         print('1 - Sim')

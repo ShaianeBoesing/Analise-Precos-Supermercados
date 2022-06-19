@@ -40,9 +40,6 @@ class SupermercadoTela(AbstractTela):
             self.continuar()
             return False
 
-    def exibir_infos_supermercado(self, Supermercado):
-        pass
-
     def exibir_confirmacao_exclusao(self):
         print('Tem certeza que deseja excluir este supermercado?')
         print('1 - Sim')

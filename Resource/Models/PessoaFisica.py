@@ -14,5 +14,6 @@ class PessoaFisica(Usuario):
 
     @cpf.setter
     def cpf(self, cpf):
-        self.__cpf = cpf
+        if isinstance(cpf, int):    
+            self.__cpf = cpf
 
