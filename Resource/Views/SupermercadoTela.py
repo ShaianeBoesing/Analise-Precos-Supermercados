@@ -13,7 +13,10 @@ class SupermercadoTela(AbstractTela):
                 'endereco': endereco}
 
     def editar_supermercado_formulario(self):
-        pass
+        nome = input('Nome: ')
+        endereco = input('Endereco: ')
+        return {'nome': nome,
+                'endereco': endereco}
 
     def exibir_listas_supermercados(self, supermercados: list):
         super().exibir_mensagem("Lista de Supermercados")

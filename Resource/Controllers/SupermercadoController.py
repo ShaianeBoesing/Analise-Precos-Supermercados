@@ -33,8 +33,14 @@ class SupermercadoController:
         self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
         self.__tela_supermercado.continuar()
 
-    def alterar_supermercado(self, supermercado):
-        pass
+    def alterar_supermercado(self):
+        supermercado = self.escolher_supermercado()
+        dados_supermercado = self.__tela_supermercado.editar_supermercado_formulario()
+        supermercado.nome = dados_supermercado['nome']
+        supermercado.endereco =  dados_supermercado['endereco']
+        self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
+        self.__tela_supermercado.continuar()
+
 
     def excluir_supermercado(self):
         supermercado = self.escolher_supermercado()
