@@ -12,6 +12,9 @@ class ProdutoController:
             'Listar Produtos': self.listar_produtos,
             'Alterar Produto': self.alterar_produto,
             'Excluir Produto': self.excluir_produto,
+            'Adicionar Preço': self.adicionar_preco_produto,
+            'Ver Preços': self.ver_precos_produto,
+            'Colaborar com Preços': self.colaborar_precos_produtos,
             'Voltar': self.voltar
         }
         self.__ON = True
@@ -94,6 +97,58 @@ class ProdutoController:
         if isinstance(produto, Produto):
             if produto in self.__lista_produtos:
                 self.__lista_produtos.remove(produto)
+
+    def adicionar_preco_produto(self):
+        self.__tela_produto.exibir_mensagem('ESCOLHA O PRODUTO QUE DESEJA INFORMAR PREÇO!')
+        produto = self.escolher_produto()
+        if produto:
+            preco  = self.__sistema.preco_controller.criar_preco(produto)
+            if preco:
+                produto.add_preco(preco)
+                self.__tela_produto.exibir_mensagem('Preço incluido com sucesso')
+            return False
+        else:
+            return False
+
+    def ver_precos_produto(self):
+        self.__tela_produto.exibir_mensagem('ESCOLHA O PRODUTO QUE DESEJA VER OS PREÇOS!')
+        produto = self.escolher_produto()
+        if produto:
+            lista_precos = produto.precos
+            if lista_precos:
+                self.__sistema.preco_controller.listar_precos(lista_precos)
+                return lista_precos
+            return False
+        else:
+            return False
+
+    def colaborar_precos_produtos(self):
+        self.__tela_produto.exibir_mensagem('PREÇOS DE PRODUTOS POR SUPERMERCADOS!')
+        precos = []
+        cont = 1
+        if len(self.__lista_produtos) > 0:
+            for produto in self.__lista_produtos:
+                for preco in produto.precos:
+                    print(f'{cont} - {produto.nome} | {preco.supermercado.nome} = {preco.valor}')
+                    for qualificador in produto.qualificadores:
+                        print(f'- {qualificador.nome}')
+                    precos.append(preco)
+                    cont += 1
+
+            self.__tela_produto.exibir_mensagem('COM QUAL PREÇO QUER CONTRIBUIR?')
+            try:
+                opcao = int(input('Opção: '));
+                if opcao <= len(precos):
+                    precos[opcao-1].confirma_preco()
+                    return precos[opcao-1]
+                else:
+                    raise ValueError('Valor informado maior que o permitido')
+            except ValueError:
+                print(f'O valor deve ser um número inteiro entre 1 e {len(precos)}')
+
+        return False
+
+
 
     def listar_menus(self):
         self.__ON = True
