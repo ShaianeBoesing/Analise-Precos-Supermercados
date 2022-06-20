@@ -6,14 +6,18 @@ class ProdutoTela(AbstractTela):
     def __init__(self, controlador):
         pass
 
-    def cadastrar_produto_formulario(self):
+    def cadastrar_produto_formulario(self, categorias):
         nome = input('Nome: ')
         descricao = input('Descrição: ')
         qualificadores = self.escolher_qualificadores()
-        return {'nome': nome,
-                'descricao': descricao,
-                'qualificadores': qualificadores}
-
+        categoria = self.escolher_categorias(categorias)
+        if categoria:
+            return {'nome': nome,
+                    'descricao': descricao,
+                    'qualificadores': qualificadores,
+                    'categoria': categoria}
+        else:
+            return False
     def exibir_produtos_precos_supermercados(self, produtos: list):
         super().exibir_mensagem("Lista de Produtos e Preços")
         try:
@@ -69,6 +73,25 @@ class ProdutoTela(AbstractTela):
 
         return qualificadores
 
+    def escolher_categorias(self, categorias):
+        try:
+            tam_categoria = len(categorias)
+            if tam_categoria > 0:
+                super().exibir_mensagem('Escolha uma categoria: ')
+                for i in range(tam_categoria):
+                    print(f'{i+1} - {categorias[i].nome}')
+                opcao = int(input('Opção: '))
+                if opcao > tam_categoria:
+                    raise ValueError
+                return categorias[opcao - 1]
+            else:
+                super().exibir_mensagem('Não há categorias cadastradas')
+                return False
+        except ValueError:
+            print(f'O valor deve ser um número inteiro entre 1 e {tam_categoria}')
+            return False
+
+
     def editar_qualificador(self):
         continuar = 1
         qualificadores = []
@@ -98,7 +121,7 @@ class ProdutoTela(AbstractTela):
 
         if total_produtos:
             for i in range(total_produtos):
-                print(i + 1, '- ', produtos[i].nome, '|', produtos[i].descricao)
+                print(i + 1, '- ', produtos[i].nome, '|', produtos[i].descricao, '|', produtos[i].categoria.nome)
                 for q in produtos[i].qualificadores:
                     print('  -', q.nome)
                 print('-' * 71)

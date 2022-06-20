@@ -3,10 +3,11 @@ from Resource.Models.Preco import Preco
 
 
 class Produto:
-    def __init__(self, nome, descricao, qualificadores):
+    def __init__(self, nome, descricao, qualificadores, categoria):
         self.__nome = nome
         self.__descricao = descricao
         self.add_qualificador(qualificadores)
+        self.__categoria = categoria
         self.__precos = []
 
 
@@ -34,6 +35,14 @@ class Produto:
     @precos.setter
     def precos(self, precos):
         self.__precos = precos
+
+    @property
+    def categoria(self):
+        return self.__categoria
+
+    @categoria.setter
+    def categoria(self, categoria):
+        self.__categoria = categoria
 
     @property
     def qualificadores(self):

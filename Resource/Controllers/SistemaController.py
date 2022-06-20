@@ -61,6 +61,10 @@ class SistemaController:
     def produto_controller(self):
         return self.__produto_controller
 
+    @property
+    def categoria_controller(self):
+        return self.__categoria_controller
+
     # OUTROS MÉTODOS
     def iniciar(self):
         self.__ON = True

@@ -18,11 +18,12 @@ class Categoria:
     def produtos(self):
         return self.__produtos
 
-    def adicionar_produto_lista(self, lista_produtos):
-        produtos = []
-        for nome in lista_produtos:
-            produto = Produto(nome)
-            produtos.append(produto)
-        self.__produtos = produtos
+    def adicionar_produto_lista(self, produto):
+        if isinstance(produto, Produto):
+            if produto not in self.__produtos:
+                self.__produtos.append(produto)
 
+    def remover_produto_lista(self, produto):
+        if produto in self.__produtos:
+            self.__produtos.remove(produto)
    

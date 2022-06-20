@@ -45,14 +45,22 @@ class ProdutoController:
     # CRUD
     def criar_produto(self):
         self.__tela_produto.exibir_mensagem('FORMULÁRIO DE PRODUTO: ')
-        dados_produto = self.__tela_produto.cadastrar_produto_formulario()
-        novo_produto = Produto(
-            dados_produto['nome'],
-            dados_produto['descricao'],
-            dados_produto['qualificadores']
-        )
-        self.adicionar_produto_lista(novo_produto)
-        self.__tela_produto.exibir_mensagem("Produto cadastrado com sucesso!")
+        categorias = self.__sistema.categoria_controller.lista_categorias
+        dados_produto = self.__tela_produto.cadastrar_produto_formulario(categorias)
+        if dados_produto:
+            novo_produto = Produto(
+                dados_produto['nome'],
+                dados_produto['descricao'],
+                dados_produto['qualificadores'],
+                dados_produto['categoria']
+            )
+            dados_produto['categoria'].adicionar_produto_lista(novo_produto)
+            self.adicionar_produto_lista(novo_produto)
+
+            self.__tela_produto.exibir_mensagem("Produto cadastrado com sucesso!")
+        else:
+            self.__tela_produto.exibir_mensagem('Não foi possível cadastrar seu produto')
+
         self.__tela_produto.continuar()
 
     def alterar_produto(self):
@@ -64,6 +72,7 @@ class ProdutoController:
             confirma = self.__tela_produto.exibir_confirmacao_exclusao()
             if confirma:
                 self.remover_produto_lista(produto)
+                produto.categoria.remover_produto_lista(produto)
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
                 self.__tela_produto.continuar()
 
