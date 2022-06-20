@@ -6,6 +6,7 @@ class ProdutoController:
     def __init__(self, sistema):
         self.__tela_produto = ProdutoTela(self)
         self.__lista_produtos = []
+        self.__lista_qualificadores = []
         self.__sistema = sistema
         self.__menu_opcoes = {
             'Cadastrar Produto': self.criar_produto,
@@ -54,7 +55,7 @@ class ProdutoController:
         if produto:
             confirma = self.__tela_produto.exibir_confirmacao_exclusao()
             if confirma:
-                self.remover_supermercado_lista(produto)
+                self.remover_produto_lista(produto)
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
                 self.__tela_produto.continuar()
 
@@ -90,10 +91,24 @@ class ProdutoController:
             if produto not in self.__lista_produtos:
                 self.__lista_produtos.append(produto)
 
-    def remover_supermercado_lista(self, produto):
+    def remover_produto_lista(self, produto):
         if isinstance(produto, Produto):
             if produto in self.__lista_produtos:
                 self.__lista_produtos.remove(produto)
+
+    def listar_qualificadores(self):
+        self.__tela_produto.exibir_lista_qualificadores(self.__lista_qualificadores)
+        self.__tela_produto.continuar()
+
+    def excluir_qualificador(self):
+        qualificador = self.escolher_qualificador()
+        if qualificador:
+            confirma = self.__tela_produto.exibir_confirmacao_exclusao()
+            if confirma:
+                if qualificador in self.__lista_qualificadores:
+                    self.__lista_qualificadores.remove(qualificador)
+                    self.__tela_produto.exibir_mensagem('Qualificador excluído com sucesso!')
+                    self.__tela_produto.continuar()
 
     def listar_menus(self):
         self.__ON = True

@@ -10,7 +10,7 @@ class PessoaJuridicaTela(AbstractTela):
             total_supermercados = len(supermercados)
             nome = input('Nome: ')
             email = input('Email: ')
-            cnpj = input('CNPJ: ')
+            cnpj = input('CNPJ (apenas números): ')
             self.__controller.sistema.supermercado_controller.listar_supermercados()
             if total_supermercados:
                 supermercado = int(input('Supermercado: '))

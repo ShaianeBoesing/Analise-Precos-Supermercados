@@ -75,6 +75,21 @@ class ProdutoTela(AbstractTela):
             print('Não há produtos cadastrados!')
             return False
 
+    def exibir_lista_qualificadores(self, qualificadores):
+        super().exibir_mensagem("Lista de Qualificadores")
+        total_qualificadores = len(qualificadores)
+
+        if total_qualificadores:
+            for i in range(total_qualificadores):
+                print(i + 1, '- ', qualificadores[i].nome, '|', qualificadores[i].descricao)
+                for q in qualificadores[i].qualificadores:
+                    print('  -', q.nome)
+                print('-' * 71)
+            return True
+        else:
+            print('Não há qualificadores cadastrados!')
+            return False
+
     def escolher_produto(self, produtos):
         try:
             self.exibir_lista_produtos(produtos)

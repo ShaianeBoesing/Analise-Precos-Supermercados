@@ -97,6 +97,6 @@ class PessoaJuridicaController(AbstratcUsuarioController):
         if isinstance(usuario, PessoaJuridica):
             if usuario in self.__lista_pessoas_juridicas:
                 self.__lista_pessoas_juridicas.remove(usuario)
-
+   
     def voltar(self):
         self.__ON = False

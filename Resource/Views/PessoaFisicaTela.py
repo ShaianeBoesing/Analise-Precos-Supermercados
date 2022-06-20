@@ -4,12 +4,12 @@ from Resource.Models.PessoaFisica import PessoaFisica
 
 class PessoaFisicaTela(AbstractTela):
     def __init__(self):
-        pass
+        super().__init__()
 
     def cadastrar_usuario_formulario(self):
         nome = input('Nome: ')
         email = input('Email: ')
-        cpf = input('CPF: ')
+        cpf = input('CPF (apenas números): ')
         data = {'nome': nome,
                 'email': email,
                 'cpf': cpf}
