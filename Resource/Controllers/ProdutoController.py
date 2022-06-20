@@ -6,6 +6,7 @@ class ProdutoController:
     def __init__(self, sistema):
         self.__tela_produto = ProdutoTela(self)
         self.__lista_produtos = []
+        self.__lista_qualificadores = []
         self.__sistema = sistema
         self.__menu_opcoes = {
             'Cadastrar Produto': self.criar_produto,
@@ -29,6 +30,10 @@ class ProdutoController:
         return self.__lista_produtos
 
     @property
+    def lista_qualificadores(self):
+        return self.__lista_qualificadores
+
+    @property
     def sistema(self):
         return self.__sistema
 
@@ -39,7 +44,7 @@ class ProdutoController:
     # CRUD
     def criar_produto(self):
         self.__tela_produto.exibir_mensagem('FORMULÁRIO DE PRODUTO: ')
-        dados_produto = self.__tela_produto.cadastrar_supermercado_formulario()
+        dados_produto = self.__tela_produto.cadastrar_produto_formulario()
         novo_produto = Produto(
             dados_produto['nome'],
             dados_produto['descricao'],
@@ -57,7 +62,7 @@ class ProdutoController:
         if produto:
             confirma = self.__tela_produto.exibir_confirmacao_exclusao()
             if confirma:
-                self.remover_supermercado_lista(produto)
+                self.remover_produto_lista(produto)
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
                 self.__tela_produto.continuar()
 
@@ -74,6 +79,13 @@ class ProdutoController:
         opcao = self.__tela_produto.escolher_produto(produtos)
         if opcao != False:
             return produtos[opcao - 1]
+        return False
+
+    def escolher_qualificador(self):
+        qualificadores = self.__lista_qualificadores
+        opcao = self.__tela_produto.escolher_qualificadores(qualificadores)
+        if opcao != False:
+            return qualificadores[opcao - 1]
         return False
 
     def escolher_precos_produtos_por_supermercado(self):
@@ -93,10 +105,24 @@ class ProdutoController:
             if produto not in self.__lista_produtos:
                 self.__lista_produtos.append(produto)
 
-    def remover_supermercado_lista(self, produto):
+    def remover_produto_lista(self, produto):
         if isinstance(produto, Produto):
             if produto in self.__lista_produtos:
                 self.__lista_produtos.remove(produto)
+
+    def listar_qualificadores(self):
+        self.__tela_produto.exibir_lista_qualificadores(self.__lista_qualificadores)
+        self.__tela_produto.continuar()
+
+    def excluir_qualificador(self):
+        qualificador = self.escolher_qualificador()
+        if qualificador:
+            confirma = self.__tela_produto.exibir_confirmacao_exclusao()
+            if confirma:
+                if qualificador in self.__lista_qualificadores:
+                    self.__lista_qualificadores.remove(qualificador)
+                    self.__tela_produto.exibir_mensagem('Qualificador excluído com sucesso!')
+                    self.__tela_produto.continuar()
 
     def adicionar_preco_produto(self):
         self.__tela_produto.exibir_mensagem('ESCOLHA O PRODUTO QUE DESEJA INFORMAR PREÇO!')

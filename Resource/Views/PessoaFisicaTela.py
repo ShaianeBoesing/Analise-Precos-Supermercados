@@ -4,19 +4,31 @@ from Resource.Models.PessoaFisica import PessoaFisica
 
 class PessoaFisicaTela(AbstractTela):
     def __init__(self):
-        pass
+        super().__init__()
 
     def cadastrar_usuario_formulario(self):
         nome = input('Nome: ')
         email = input('Email: ')
-        cpf = input('CPF: ')
+        cpf = input('CPF (apenas números): ')
         data = {'nome': nome,
                 'email': email,
                 'cpf': cpf}
         return data
 
-    def editar_usuario_formulario(self):
-        pass
+    def editar_usuario(self):
+        try:
+            nome = input('Nome: ')
+            email = input('Email: ')
+            data = {
+                'nome': nome,
+                'email': email
+            }
+            return data
+
+        except ValueError as e:
+            print(e.args[0])
+            self.continuar()
+            return False
 
     def exibir_lista_usuarios(self, usuarios: list):
         super().exibir_mensagem("Lista de Usuários")

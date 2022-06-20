@@ -1,9 +1,10 @@
+from Resource.Controllers.AbstractUsuarioController import AbstratcUsuarioController
 from Resource.Models.PessoaFisica import PessoaFisica
 from Resource.Views.PessoaFisicaTela import PessoaFisicaTela
 
 
-class PessoaFisicaController():
-    def __init__(self):
+class PessoaFisicaController(AbstratcUsuarioController):
+    def __init__(self, sistema):
         self.__pessoa_fisica_tela = PessoaFisicaTela()
         self.__lista_pessoas_fisicas = []
         self.__ON = True
@@ -13,6 +14,7 @@ class PessoaFisicaController():
             'Editar Informações de Usuário': self.alterar_usuario,
             'Voltar': self.voltar
         }
+        self.__sistema = sistema
 
     # GETTERS
     @property
@@ -49,8 +51,13 @@ class PessoaFisicaController():
                                                       'Tente novamente!')
             self.__pessoa_fisica_tela.continuar()
 
-    def alterar_usuario(self, usuario):
-        pass
+    def alterar_usuario(self):
+        usuario = self.__sistema.usuario_sessao
+        dados = self.__pessoa_fisica_tela.editar_usuario()
+        usuario.nome = dados['nome']
+        usuario.email =  dados['email']
+        self.__pessoa_fisica_tela.exibir_mensagem("Usuário alterado com sucesso!")
+        self.__pessoa_fisica_tela.continuar()
 
     def excluir_usuario(self, usuario):
         usuario = self.logar()
