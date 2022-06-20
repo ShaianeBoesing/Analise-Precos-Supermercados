@@ -170,20 +170,21 @@ class ProdutoController:
                         print(f'- {qualificador.nome}')
                     precos.append(preco)
                     cont += 1
-
-            self.__tela_produto.exibir_mensagem('COM QUAL PREÇO QUER CONTRIBUIR?')
-            try:
-                opcao = int(input('Opção: '));
-                if opcao <= len(precos):
-                    precos[opcao - 1].confirma_preco()
-                    self.__tela_produto.exibir_mensagem('OBRIGADA PELA CONTRIBUIÇÃO!')
-                    self.__tela_produto.continuar()
-                    return precos[opcao - 1]
-                else:
-                    raise ValueError('Valor informado maior que o permitido')
-            except ValueError:
-                print(f'O valor deve ser um número inteiro entre 1 e {len(precos)}')
-
+            if len(precos) > 0:
+                self.__tela_produto.exibir_mensagem('COM QUAL PREÇO QUER CONTRIBUIR?')
+                try:
+                    opcao = int(input('Opção: '))
+                    if opcao <= len(precos):
+                        precos[opcao - 1].confirma_preco()
+                        self.__tela_produto.exibir_mensagem('OBRIGADA PELA CONTRIBUIÇÃO!')
+                        self.__tela_produto.continuar()
+                        return precos[opcao - 1]
+                    else:
+                        raise ValueError('Valor informado maior que o permitido')
+                except ValueError:
+                    print(f'O valor deve ser um número inteiro entre 1 e {len(precos)}')
+        self.__tela_produto.exibir_mensagem('Não há preços cadastrados')
+        self.__tela_produto.continuar()
         return False
 
     def excluir_preco_produto(self):
