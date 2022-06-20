@@ -2,33 +2,35 @@ from Resource.Views.AbstractTela import AbstractTela
 from Resource.Exceptions.EmptyStringException import EmptyStringException
 
 class PrecoTela(AbstractTela):
-    def __init__(self):
-        pass
+    def __init__(self, controlador):
+        self.__controlador = controlador
+
 
     def cadastrar_preco_formulario(self):
         valor = input('Preço: R$ ')
-        data = input('Dia de hoje: ')
-        produto = self.escolher_produto()
-        supermercado = self.escolher_supermercado()
-        qualificadores = self.escolher_qualificadores()
-        usuario = self.registrar_usuario()
-        return {'valor': valor,
-                'data': data,
-                'produto': produto,
-                'supermercado': supermercado,
-                'qualificadores': qualificadores,
-                'usuario': usuario}
+        print('Para qual supermercado?')
+        supermercado = self.__controlador.sistema.supermercado_controller.escolher_supermercado()
+        if supermercado:
+            return {'valor': valor,
+                    'supermercado': supermercado
+                    }
+        super().continuar()
+        return False
 
     def editar_preco_formulario(self):
         pass
 
-    def exibir_lista_precos(self, preços):
+    def exibir_lista_precos(self, precos):
         super().exibir_mensagem("Lista de Preços")
-        total_precos = len(preços)
+        total_precos = len(precos)
 
         if total_precos:
             for i in range(total_precos):
-                print(i + 1, '- ', preços[i].produto, ', ', preços[i].qualificador, ': ', preços[i].preço)
+                print(f'{i+1}º PREÇO: ')
+                print(f'{precos[i].produto.nome} | {precos[i].supermercado.nome} =  {precos[i].valor} ({precos[i].contador} votos)')
+                for qualificador in precos[i].qualificadores:
+                    print('- ', qualificador.nome)
+
             return True
         else:
             print('Não há preços cadastrados!')
@@ -103,19 +105,6 @@ class PrecoTela(AbstractTela):
             return True
         else:
             print('Não há supermercados cadastrados!')
-            return False
-
-    def escolher_supermercado(self, supermercados):
-        try:
-            self.exibir_listas_supermercados(supermercados)
-            total = len(supermercados)
-            opcao = int(input('Opção: '))
-            if not (0 < opcao <= total):
-                raise ValueError(f'Valor inválido')
-            return opcao
-        except ValueError:
-            print(f'O valor precisa ser um número inteiro entre 1 e {total}')
-            self.continuar()
             return False
 
     def registrar_usuario(self):

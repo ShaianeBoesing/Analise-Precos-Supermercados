@@ -3,9 +3,8 @@ from Resource.Views.CategoriaTela import CategoriaTela
 
 class CategoriaController:
 
-    def __init__(self, categoria):
+    def __init__(self):
         self.__tela_categoria = CategoriaTela(self)
-        self.__categoria = categoria
         self.__lista_categorias = []
         self.__menu_opcoes = {
             'Cadastrar Categoria': self.criar_categoria,
@@ -18,10 +17,6 @@ class CategoriaController:
     @property
     def tela_categoria(self):
         return self.__tela_categoria
-
-    @property
-    def categoria(self):
-        return self.__categoria
 
     @property
     def lista_categorias(self):
@@ -54,3 +49,15 @@ class CategoriaController:
 
     def pesquisar_categoria(self, categoria):
         pass
+
+    def voltar(self):
+        pass
+
+    def listar_menus(self):
+        self.__ON = True
+        while self.__ON:
+            menu_opcoes = self.__menu_opcoes
+            opcao = self.__tela_categoria.ver_menu(menu_opcoes)
+            if opcao:
+                menu_opcoes[opcao]()
+

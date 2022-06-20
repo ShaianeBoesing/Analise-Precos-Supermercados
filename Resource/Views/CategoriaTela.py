@@ -5,7 +5,7 @@ class CategoriaTela(AbstractTela):
     def __init__(self, controlador):
         super().__init__()
     
-    def cadatrar_categoria(self):
+    def cadastrar_categoria(self):
         nome = input('Categoria: ')
         return {'nome': nome}
     

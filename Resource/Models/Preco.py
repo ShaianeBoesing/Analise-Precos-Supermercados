@@ -2,7 +2,7 @@ class Preco:
     def __init__(self, valor, data, produto, qualificadores, usuario, supermercado):
         self.__valor = valor
         self.__data = data
-        self.__contador = 0
+        self.__contador = 1
         self.__produto = produto
         self.__supermercado = supermercado
         self.__qualificadores = qualificadores
@@ -64,3 +64,7 @@ class Preco:
     @qualificadores.setter
     def qualificadores(self, qualificadores):
         self.__qualificadores = qualificadores
+
+# OUTROS MÉTODOS
+    def confirma_preco(self):
+        self.__contador += 1
