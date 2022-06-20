@@ -97,7 +97,7 @@ class ProdutoController:
             if valores:
                 dicionario_produtos[preco.produto] = valores.append(preco.valor)
             else:
-                precos_supermercado[preco.produto] = [preco.valor]
+                dicionario_produtos[preco.produto] = [preco.valor]
 
         return self.__tela_produto.escolher_produtos_precos_supermercado(dicionario_produtos)
 
