@@ -9,6 +9,10 @@ class CategoriaTela(AbstractTela):
         nome = input('Categoria: ')
         return {'nome': nome}
 
+    def alterar_categoria(self):
+        nome = input('Nome: ')
+        return {'nome': nome}
+
     def escolher_categoria(self, categorias):
         try:
             self.lista_categorias(categorias)
@@ -35,7 +39,7 @@ class CategoriaTela(AbstractTela):
             return False
 
     def exibir_confirmacao_exclusao(self):
-        print('Tem certeza que deseja excluir este supermercado?')
+        print('Tem certeza que deseja excluir esta categoria?')
         print('1 - Sim')
         print('0 - Não')
         try:

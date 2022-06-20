@@ -8,6 +8,13 @@ class PessoaJuridicaController(AbstratcUsuarioController):
         self.__pessoa_juridica_tela = PessoaJuridicaTela(self)
         self.__lista_pessoas_juridicas = []
         self.__ON = True
+        self.__menu_opcoes = {
+            'Editar Usuário': self.alterar_usuario,
+            'Excluir Conta': self.excluir_usuario,
+            'Ver Conta': self.ver_conta,
+            'Voltar': self.voltar
+        }
+
         self.__sistema = sistema
 
     # GETTERS
@@ -50,17 +57,24 @@ class PessoaJuridicaController(AbstratcUsuarioController):
         self.__pessoa_juridica_tela.exibir_mensagem("Usuário alterado com sucesso!")
         self.__pessoa_juridica_tela.continuar()
 
-    def excluir_usuario(self, usuario):
-        usuario = self.logar()
+    def excluir_usuario(self):
+        usuario = self.__sistema.usuario_sessao
         if usuario:
             confirma = self.__pessoa_juridica_tela.exibir_confirmacao_exclusao()
             if confirma:
-                self.remover_usuario(usuario)
+                self.remover_usuario_lista(usuario)
+                self.voltar()
+                self.__sistema.deslogar()
                 self.__pessoa_juridica_tela.exibir_mensagem('Usuário excluído com sucesso!')
                 self.__pessoa_juridica_tela.continuar()
 
     def listar_usuarios(self):
         self.__pessoa_juridica_tela.exibir_lista_usuarios(self.__lista_pessoas_juridicas)
+        self.__pessoa_juridica_tela.continuar()
+
+    def ver_conta(self):
+        usuario = self.__sistema.usuario_sessao
+        self.__pessoa_juridica_tela.exibir_lista_usuarios([usuario])
         self.__pessoa_juridica_tela.continuar()
 
     # OUTROS MÉTODOS
@@ -86,11 +100,6 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             return None
 
     def listar_menus(self):
-        menu_opcoes = {
-            'Cadastrar Usuário': '',
-            'Voltar': self.voltar
-        }
-
         self.__ON = True
         while self.__ON:
             menu_opcoes = self.__menu_opcoes
@@ -98,7 +107,7 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             if opcao:
                 menu_opcoes[opcao]()
 
-    def remover_usuario(self, usuario):
+    def remover_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaJuridica):
             if usuario in self.__lista_pessoas_juridicas:
                 self.__lista_pessoas_juridicas.remove(usuario)

@@ -45,10 +45,13 @@ class CategoriaController:
 
     def alterar_categoria(self):
         categoria = self.escolher_categoria()
-        dados_categoria = self.__tela_categoria.cadastrar_categoria()
-        categoria.nome = dados_categoria['nome']
-        self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
-        self.__tela_categoria.continuar()
+        if categoria:
+            dados_categoria = self.__tela_categoria.alterar_categoria()
+            categoria.nome = dados_categoria['nome']
+            self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
+            self.__tela_categoria.continuar()
+            return categoria
+        return False
 
     def excluir_categoria(self):
         categoria = self.escolher_categoria()
@@ -56,7 +59,7 @@ class CategoriaController:
             confirma = self.__tela_categoria.exibir_confirmacao_exclusao()
             if confirma:
                 self.remover_categoria_lista(categoria)
-                self.__tela_categoria.exibir_mensagem('Supermercado excluído com sucesso!')
+                self.__tela_categoria.exibir_mensagem('Categoria excluída com sucesso!')
                 self.__tela_categoria.continuar()
 
     # OUTROS MÉTODOS
