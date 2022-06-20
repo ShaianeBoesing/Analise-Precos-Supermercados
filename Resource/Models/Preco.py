@@ -1,5 +1,5 @@
 class Preco:
-    def __init__(self, valor, data, produto, qualificadores, usuario, supermercado):
+    def __init__(self, valor, data: str, produto: str, qualificadores: str, usuario: str, supermercado: str):
         self.__valor = valor
         self.__data = data
         self.__contador = 1
@@ -23,7 +23,8 @@ class Preco:
 
     @data.setter
     def data(self, data):
-        self.__data = data
+        if isinstance(data, str):
+            self.__data = data
 
     @property
     def contador(self):
@@ -31,7 +32,8 @@ class Preco:
 
     @contador.setter
     def contador(self, contador):
-        self.__contador = contador
+        if isinstance(contador, int):
+            self.__contador = contador
 
     @property
     def produto(self):
@@ -39,7 +41,8 @@ class Preco:
 
     @produto.setter
     def produto(self, produto):
-        self.__produto = produto
+        if isinstance(produto, str):
+            self.__produto = produto
 
     @property
     def supermercado(self):
@@ -47,7 +50,8 @@ class Preco:
 
     @supermercado.setter
     def supermercado(self, supermercado):
-        self.__supermercado = supermercado
+        if isinstance(supermercado, str):
+            self.__supermercado = supermercado
 
     @property
     def usuario(self):
@@ -55,7 +59,8 @@ class Preco:
 
     @usuario.setter
     def usuario(self, usuario):
-        self.__usuario = usuario
+        if isinstance(usuario, str):
+            self.__usuario = usuario
 
     @property
     def qualificadores(self):
@@ -63,7 +68,8 @@ class Preco:
 
     @qualificadores.setter
     def qualificadores(self, qualificadores):
-        self.__qualificadores = qualificadores
+        if isinstance(qualificadores, str):
+            self.__qualificadores = qualificadores
 
 # OUTROS MÉTODOS
     def confirma_preco(self):

@@ -3,7 +3,7 @@ from Resource.Models.Preco import Preco
 
 
 class Produto:
-    def __init__(self, nome, descricao, qualificadores, categoria):
+    def __init__(self, nome: str, descricao: str, qualificadores: str, categoria: str):
         self.__nome = nome
         self.__descricao = descricao
         self.add_qualificador(qualificadores)
@@ -18,7 +18,8 @@ class Produto:
 
     @nome.setter
     def nome(self, nome):
-        self.__nome = nome
+        if isinstance(nome, str):
+            self.__nome = nome
 
     @property
     def descricao(self):
@@ -26,7 +27,8 @@ class Produto:
 
     @descricao.setter
     def descricao(self, descricao):
-        self.__descricao = descricao
+        if isinstance(descricao, str):
+            self.__descricao = descricao
 
     @property
     def precos(self):
@@ -42,7 +44,8 @@ class Produto:
 
     @categoria.setter
     def categoria(self, categoria):
-        self.__categoria = categoria
+        if isinstance(categoria, str):
+            self.__categoria = categoria
 
     @property
     def qualificadores(self):

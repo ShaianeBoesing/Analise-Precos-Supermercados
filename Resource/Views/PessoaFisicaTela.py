@@ -55,9 +55,6 @@ class PessoaFisicaTela(AbstractTela):
             super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
             super().continuar()
 
-    def mostrar_tela_opcoes(self):
-        pass
-
     def logar_formulario(self):
         nome = input('Nome: ')
         email = input('Email: ')

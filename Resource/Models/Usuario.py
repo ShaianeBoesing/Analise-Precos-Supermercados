@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class Usuario(ABC):
     
     @abstractmethod
-    def __init__(self, nome, email):
+    def __init__(self, nome: str, email: str):
         if isinstance(nome, str):
             self.__nome = nome
         if isinstance(email, str):

@@ -13,7 +13,8 @@ class Supermercado:
 
     @nome.setter
     def nome(self, nome):
-        self.__nome = nome
+        if isinstance(nome, str):
+            self.__nome = nome
 
     @property
     def endereco(self):
@@ -21,4 +22,5 @@ class Supermercado:
 
     @endereco.setter
     def endereco(self, endereco):
-        self.__endereco = endereco
+        if isinstance(endereco, str):
+            self.__endereco = endereco

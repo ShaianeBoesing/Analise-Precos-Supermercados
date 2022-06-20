@@ -1,5 +1,5 @@
 class Qualificador:
-    def __init__(self, nome):
+    def __init__(self, nome: str):
         self.__nome = nome
 
     # GETTERS E SETTERS
@@ -9,4 +9,5 @@ class Qualificador:
 
     @nome.setter
     def nome(self, nome):
-        self.__nome = nome
+        if isinstance(nome, str):
+            self.__nome = nome

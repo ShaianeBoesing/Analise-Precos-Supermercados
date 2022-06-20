@@ -79,9 +79,6 @@ class PessoaFisicaController(AbstratcUsuarioController):
         self.__pessoa_fisica_tela.exibir_lista_usuarios([usuario])
         self.__pessoa_fisica_tela.continuar()
 
-    def verificar_usuario(self, usuario):
-        pass
-
     def adicionar_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaFisica) and \
                 (usuario not in self.__lista_pessoas_fisicas):
