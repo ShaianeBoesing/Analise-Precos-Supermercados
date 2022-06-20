@@ -72,7 +72,7 @@ class ProdutoController:
         self.__tela_produto.continuar()
 
     # OUTROS MÉTODOS
-    def editar_preco(self):
+    def editar_preco_produto(self):
         opcao = self.escolher_precos_produtos_por_supermercado()
 
     def escolher_produto(self):
@@ -132,7 +132,8 @@ class ProdutoController:
             preco  = self.__sistema.preco_controller.criar_preco(produto)
             if preco:
                 produto.add_preco(preco)
-                self.__tela_produto.exibir_mensagem('Preço incluido com sucesso')
+                self.__sistema.preco_controller.adicionar_preco_lista(preco)
+                self.__tela_produto.exibir_mensagem('Preço incluído com sucesso')
             return False
         else:
             return False
@@ -167,6 +168,8 @@ class ProdutoController:
                 opcao = int(input('Opção: '));
                 if opcao <= len(precos):
                     precos[opcao - 1].confirma_preco()
+                    self.__tela_produto.exibir_mensagem('OBRIGADA PELA CONTRIBUIÇÃO!')
+                    self.__tela_produto.continuar()
                     return precos[opcao - 1]
                 else:
                     raise ValueError('Valor informado maior que o permitido')
