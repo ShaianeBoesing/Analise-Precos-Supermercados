@@ -16,6 +16,7 @@ class ProdutoController:
             'Adicionar Preço': self.adicionar_preco_produto,
             'Ver Preços': self.ver_precos_produto,
             'Colaborar com Preços': self.colaborar_precos_produtos,
+            'Excluir Preço': self.excluir_preco_produto,
             'Voltar': self.voltar
         }
         self.__ON = True
@@ -144,9 +145,9 @@ class ProdutoController:
             if lista_precos:
                 self.__sistema.preco_controller.listar_precos(lista_precos)
                 return lista_precos
-            return False
-        else:
-            return False
+        self.__tela_produto.exibir_mensagem('Não há preços cadastrados')
+        self.__tela_produto.continuar()
+        return False
 
     def colaborar_precos_produtos(self):
         self.__tela_produto.exibir_mensagem('PREÇOS DE PRODUTOS POR SUPERMERCADOS!')
@@ -165,8 +166,8 @@ class ProdutoController:
             try:
                 opcao = int(input('Opção: '));
                 if opcao <= len(precos):
-                    precos[opcao-1].confirma_preco()
-                    return precos[opcao-1]
+                    precos[opcao - 1].confirma_preco()
+                    return precos[opcao - 1]
                 else:
                     raise ValueError('Valor informado maior que o permitido')
             except ValueError:
@@ -174,7 +175,35 @@ class ProdutoController:
 
         return False
 
+    def excluir_preco_produto(self):
+        self.__tela_produto.exibir_mensagem('EXCLUIR PREÇO DE PRODUTO!')
+        precos = []
+        cont = 1
+        if len(self.__lista_produtos) > 0:
+            self.__tela_produto.exibir_mensagem('QUAL PREÇO QUER EXCLUIR?')
+            for produto in self.__lista_produtos:
+                for preco in produto.precos:
+                    print(f'{cont} - {produto.nome} | {preco.supermercado.nome} = {preco.valor}')
+                    for qualificador in produto.qualificadores:
+                        print(f'- {qualificador.nome}')
+                    precos.append({'preco':preco, 'produto': produto})
+                    cont += 1
 
+            try:
+                opcao = int(input('Opção: '));
+                if opcao <= len(precos):
+                    produto = precos[opcao - 1]['produto']
+                    preco = precos[opcao - 1]['preco']
+                    produto.remove_preco(preco)
+                    self.__sistema.preco_controller.remover_preco_lista(preco)
+                    self.__tela_produto.exibir_mensagem('Preço excluído com sucesso')
+                    self.__tela_produto.continuar()
+                else:
+                    raise ValueError('Valor informado maior que o permitido')
+            except ValueError:
+                print(f'O valor deve ser um número inteiro entre 1 e {len(precos)}')
+
+        return False
 
     def listar_menus(self):
         self.__ON = True

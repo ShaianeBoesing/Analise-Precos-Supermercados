@@ -55,3 +55,6 @@ class Produto:
                 return precos
         return False
 
+    def remove_preco(self, preco):
+        if preco in self.__precos:
+            self.__precos.remove(preco)

@@ -7,15 +7,19 @@ class PrecoTela(AbstractTela):
 
 
     def cadastrar_preco_formulario(self):
-        valor = input('Preço: R$ ')
-        print('Para qual supermercado?')
-        supermercado = self.__controlador.sistema.supermercado_controller.escolher_supermercado()
-        if supermercado:
-            return {'valor': valor,
-                    'supermercado': supermercado
-                    }
-        super().continuar()
-        return False
+        try:
+            valor = float(input('Preço: R$ '))
+            print('Para qual supermercado?')
+            supermercado = self.__controlador.sistema.supermercado_controller.escolher_supermercado()
+            if supermercado:
+                return {'valor': valor,
+                        'supermercado': supermercado
+                        }
+            super().continuar()
+            return False
+        except ValueError:
+            print('Valor inválido.')
+            return False
 
     def editar_preco_formulario(self):
         pass
@@ -27,7 +31,7 @@ class PrecoTela(AbstractTela):
         if total_precos:
             for i in range(total_precos):
                 print(f'{i+1}º PREÇO: ')
-                print(f'{precos[i].produto.nome} | {precos[i].supermercado.nome} =  {precos[i].valor} ({precos[i].contador} votos)')
+                print(f'{precos[i].produto.nome} | {precos[i].supermercado.nome} =  R$ {precos[i].valor} ({precos[i].contador} votos)')
                 for qualificador in precos[i].qualificadores:
                     print('- ', qualificador.nome)
 
