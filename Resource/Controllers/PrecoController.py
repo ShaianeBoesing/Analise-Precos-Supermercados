@@ -53,9 +53,6 @@ class PrecoController:
         self.__tela_preco.exibir_lista_precos(lista_precos)
         self.__tela_preco.continuar()
 
-    def alterar_preco(self):
-        pass
-
     def excluir_preco(self):
         preco = self.escolher_preco()
         if preco:

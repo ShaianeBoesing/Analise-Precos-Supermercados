@@ -35,7 +35,5 @@ class RelatoriosController:
             if opcao:
                 menu_opcoes[opcao]()
 
-
-
     def voltar(self):
         self.__ON = False

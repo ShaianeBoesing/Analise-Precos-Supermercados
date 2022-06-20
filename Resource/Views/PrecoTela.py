@@ -116,5 +116,3 @@ class PrecoTela(AbstractTela):
             print('Não há supermercados cadastrados!')
             return False
 
-    def registrar_usuario(self):
-        pass
