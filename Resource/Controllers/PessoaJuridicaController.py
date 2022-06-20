@@ -78,9 +78,6 @@ class PessoaJuridicaController(AbstratcUsuarioController):
         self.__pessoa_juridica_tela.continuar()
 
     # OUTROS MÉTODOS
-    def verificar_usuario(self, usuario):
-        pass
-
     def adicionar_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaJuridica) and \
                 (usuario not in self.__lista_pessoas_juridicas):

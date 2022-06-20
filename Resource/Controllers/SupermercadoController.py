@@ -73,9 +73,6 @@ class SupermercadoController:
                 self.__lista_supermercados.remove(supermercado)
                 # Remover Funcionários deste supermercado
 
-    def pesquisar_supermercado(self, supermercado):
-        pass
-
     def listar_menus(self):
         self.__ON = True
         while self.__ON:

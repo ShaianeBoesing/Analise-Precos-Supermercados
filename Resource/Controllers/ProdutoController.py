@@ -62,9 +62,6 @@ class ProdutoController:
 
         self.__tela_produto.continuar()
 
-    def alterar_produto(self):
-        pass
-
     def excluir_produto(self):
         produto = self.escolher_produto()
         if produto:
