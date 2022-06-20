@@ -69,10 +69,9 @@ class PrecoController:
     def buscar_precos_supermercados(self):
         precos_supermercado = []
         usuario = self.__sistema.usuario_sessao
-        if usuario.supermercado:
-            for preco in self.__lista_precos:
-                if preco.supermercado == usuario.supermercado:
-                    precos_supermercado.append(preco)
+        for preco in self.__lista_precos:
+            if preco.supermercado == usuario.supermercado:
+                precos_supermercado.append(preco)
 
         return precos_supermercado
 
@@ -85,7 +84,7 @@ class PrecoController:
 
     def adicionar_preco_lista(self, preco):
         if isinstance(preco, Preco):
-            if preco in self.__lista_precos:
+            if preco not in self.__lista_precos:
                 self.__lista_precos.append(preco)
 
     def remover_preco_lista(self, preco):
