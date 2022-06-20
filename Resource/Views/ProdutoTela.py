@@ -77,12 +77,13 @@ class ProdutoTela(AbstractTela):
 
     def escolher_produto(self, produtos):
         try:
-            self.exibir_lista_produtos(produtos)
-            total = len(produtos)
-            opcao = int(input('Opção: '))
-            if not (0 < opcao <= total):
-                raise ValueError(f'Valor inválido')
-            return opcao
+            if self.exibir_lista_produtos(produtos):
+                total = len(produtos)
+                opcao = int(input('Opção: '))
+                if not (0 < opcao <= total):
+                    raise ValueError(f'Valor inválido')
+                return opcao
+            return False
         except ValueError:
             print(f'O valor precisa ser um número inteiro entre 1 e {total}')
             self.continuar()

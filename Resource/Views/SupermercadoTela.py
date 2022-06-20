@@ -32,12 +32,13 @@ class SupermercadoTela(AbstractTela):
 
     def escolher_supermercado(self, supermercados):
         try:
-            self.exibir_listas_supermercados(supermercados)
-            total = len(supermercados)
-            opcao = int(input('Opção: '))
-            if not (0 < opcao <= total):
-                raise ValueError(f'Valor maior que {total}')
-            return opcao
+            if self.exibir_listas_supermercados(supermercados):
+                total = len(supermercados)
+                opcao = int(input('Opção: '))
+                if not (0 < opcao <= total):
+                    raise ValueError(f'Valor maior que {total}')
+                return opcao
+            return False
         except ValueError:
             print(f'O valor precisa ser um número inteiro entre 1 e {total}')
             self.continuar()
