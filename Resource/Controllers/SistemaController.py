@@ -31,7 +31,6 @@ class SistemaController:
             'Sair': self.sair
         }
         self.__menu_opcoes_pessoa_juridica = {
-            'Editar Preços de Produtos': self.__produto_controller.editar_preco_produto,
             'CONTA': self.__pessoas_juridica_controller.listar_menus,
             'Deslogar': self.deslogar,
         }

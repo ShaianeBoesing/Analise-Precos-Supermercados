@@ -11,7 +11,6 @@ class ProdutoController:
         self.__menu_opcoes = {
             'Cadastrar Produto': self.criar_produto,
             'Listar Produtos': self.listar_produtos,
-            'Alterar Produto': self.alterar_produto,
             'Excluir Produto': self.excluir_produto,
             'Adicionar Preço': self.adicionar_preco_produto,
             'Ver Preços': self.ver_precos_produto,
