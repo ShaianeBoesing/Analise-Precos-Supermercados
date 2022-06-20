@@ -41,7 +41,6 @@ class SupermercadoController:
         self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
         self.__tela_supermercado.continuar()
 
-
     def excluir_supermercado(self):
         supermercado = self.escolher_supermercado()
         if supermercado:

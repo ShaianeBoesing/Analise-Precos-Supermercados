@@ -15,8 +15,20 @@ class PessoaFisicaTela(AbstractTela):
                 'cpf': cpf}
         return data
 
-    def editar_usuario_formulario(self):
-        pass
+    def editar_usuario(self):
+        try:
+            nome = input('Nome: ')
+            email = input('Email: ')
+            data = {
+                'nome': nome,
+                'email': email
+            }
+            return data
+
+        except ValueError as e:
+            print(e.args[0])
+            self.continuar()
+            return False
 
     def exibir_lista_usuarios(self, usuarios: list):
         super().exibir_mensagem("Lista de Usuários")

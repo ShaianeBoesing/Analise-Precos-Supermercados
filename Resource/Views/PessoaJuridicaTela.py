@@ -27,6 +27,21 @@ class PessoaJuridicaTela(AbstractTela):
             self.continuar()
             return False
 
+    def editar_usuario(self):
+        try:
+            nome = input('Nome: ')
+            email = input('Email: ')
+            data = {
+                'nome': nome,
+                'email': email
+            }
+            return data
+
+        except ValueError as e:
+            print(e.args[0])
+            self.continuar()
+            return False
+
     def logar_formulario(self):
         nome = input('Nome: ')
         email = input('Email: ')

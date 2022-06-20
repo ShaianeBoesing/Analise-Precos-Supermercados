@@ -27,6 +27,10 @@ class ProdutoController:
         return self.__lista_produtos
 
     @property
+    def lista_qualificadores(self):
+        return self.__lista_qualificadores
+
+    @property
     def sistema(self):
         return self.__sistema
 
@@ -37,7 +41,7 @@ class ProdutoController:
     # CRUD
     def criar_produto(self):
         self.__tela_produto.exibir_mensagem('FORMULÁRIO DE PRODUTO: ')
-        dados_produto = self.__tela_produto.cadastrar_supermercado_formulario()
+        dados_produto = self.__tela_produto.cadastrar_produto_formulario()
         novo_produto = Produto(
             dados_produto['nome'],
             dados_produto['descricao'],
@@ -72,6 +76,13 @@ class ProdutoController:
         opcao = self.__tela_produto.escolher_produto(produtos)
         if opcao != False:
             return produtos[opcao - 1]
+        return False
+
+    def escolher_qualificador(self):
+        qualificadores = self.__lista_qualificadores
+        opcao = self.__tela_produto.escolher_qualificadores(qualificadores)
+        if opcao != False:
+            return qualificadores[opcao - 1]
         return False
 
     def escolher_precos_produtos_por_supermercado(self):

@@ -18,7 +18,7 @@ class SistemaController:
         self.__supermercado_controller = SupermercadoController()
         self.__produto_controller = ProdutoController(self)
         self.__pessoas_juridica_controller = PessoaJuridicaController(self)
-        self.__pessoas_fisica_controller = PessoaFisicaController()
+        self.__pessoas_fisica_controller = PessoaFisicaController(self)
         self.__preco_controller = PrecoController(self)
         self.__categoria_controller = CategoriaController()
         self.__menu_opcoes_acesso = {
@@ -30,12 +30,14 @@ class SistemaController:
         }
         self.__menu_opcoes_pessoa_juridica = {
             'Editar Preços de Produtos': self.__produto_controller.editar_preco,
+            'Editar Usuário': self.__pessoas_juridica_controller.alterar_usuario,
             'Deslogar': self.deslogar,
         }
         self.__menu_opcoes_pessoa_fisica = {
             'PRODUTOS': self.__produto_controller.listar_menus,
             'SUPERMERCADOS': self.__supermercado_controller.listar_menus,
             'CATEGORIA': self.__categoria_controller.listar_menus,
+            'Editar Usuário': self.__pessoas_fisica_controller.alterar_usuario,
             'Deslogar': self.deslogar,
         }
 

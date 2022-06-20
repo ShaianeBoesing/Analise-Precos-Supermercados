@@ -6,7 +6,7 @@ class ProdutoTela(AbstractTela):
     def __init__(self, controlador):
         pass
 
-    def cadastrar_supermercado_formulario(self):
+    def cadastrar_produto_formulario(self):
         nome = input('Nome: ')
         descricao = input('Descrição: ')
         qualificadores = self.escolher_qualificadores()
@@ -38,6 +38,29 @@ class ProdutoTela(AbstractTela):
             return False
 
     def escolher_qualificadores(self):
+        continuar = 1
+        qualificadores = []
+        while continuar:
+            try:
+                qualificador = input('Qualificador: ')
+                if qualificador:
+                    qualificadores.append(qualificador)
+                else:
+                    raise EmptyStringException
+                super().exibir_mensagem('Deseja inserir mais um qualificador?')
+                print('0- Não')
+                print('1- Sim')
+                try:
+                    continuar = int(input('Opcão: '))
+                except ValueError:
+                    print('Opção inválida')
+                    continuar = 0
+            except EmptyStringException as e:
+                print(e)
+
+        return qualificadores
+
+    def editar_qualificador(self):
         continuar = 1
         qualificadores = []
         while continuar:

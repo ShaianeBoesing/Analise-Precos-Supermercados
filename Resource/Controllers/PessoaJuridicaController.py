@@ -42,8 +42,13 @@ class PessoaJuridicaController(AbstratcUsuarioController):
             self.__pessoa_juridica_tela.exibir_mensagem('Usuário cadastrado com sucesso!')
             self.__pessoa_juridica_tela.continuar()
 
-    def alterar_usuario(self, usuario):
-        pass
+    def alterar_usuario(self):
+        usuario = self.__sistema.usuario_sessao
+        dados = self.__pessoa_juridica_tela.editar_usuario()
+        usuario.nome = dados['nome']
+        usuario.email =  dados['email']
+        self.__pessoa_juridica_tela.exibir_mensagem("Usuário alterado com sucesso!")
+        self.__pessoa_juridica_tela.continuar()
 
     def excluir_usuario(self, usuario):
         usuario = self.logar()

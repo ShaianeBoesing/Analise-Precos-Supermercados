@@ -43,8 +43,12 @@ class CategoriaController:
         self.__tela_categoria.lista_categorias(self.__lista_categorias)
         self.__tela_categoria.continuar()
 
-    def alterar_categoria(self, categoria):
-        pass
+    def alterar_categoria(self):
+        categoria = self.escolher_categoria()
+        dados_categoria = self.__tela_categoria.cadastrar_categoria()
+        categoria.nome = dados_categoria['nome']
+        self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
+        self.__tela_categoria.continuar()
 
     def excluir_categoria(self):
         categoria = self.escolher_categoria()
