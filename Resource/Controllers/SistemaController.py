@@ -6,6 +6,7 @@ from Resource.Controllers.PrecoController import PrecoController
 from Resource.Controllers.CategoriaController import CategoriaController
 from Resource.Controllers.PessoaJuridicaController import PessoaJuridicaController
 from Resource.Controllers.PessoaFisicaController import PessoaFisicaController
+from Resource.Controllers.RelatoriosController import RelatoriosController
 from Resource.Views.SistemaTela import SistemaTela
 
 
@@ -21,6 +22,7 @@ class SistemaController:
         self.__pessoas_fisica_controller = PessoaFisicaController(self)
         self.__preco_controller = PrecoController(self)
         self.__categoria_controller = CategoriaController()
+        self.__relatorios_controller = RelatoriosController(self)
         self.__menu_opcoes_acesso = {
             'Acessar como Pessoa Jurídica': self.__pessoas_juridica_controller.logar,
             'Acessar como Pessoa Física': self.__pessoas_fisica_controller.logar,
@@ -29,8 +31,7 @@ class SistemaController:
             'Sair': self.sair
         }
         self.__menu_opcoes_pessoa_juridica = {
-            'Editar Preços de Produtos': self.__produto_controller.editar_preco,
-            'Editar Usuário': self.__pessoas_juridica_controller.alterar_usuario,
+            'Editar Preços de Produtos': self.__produto_controller.editar_preco_produto,
             'CONTA': self.__pessoas_juridica_controller.listar_menus,
             'Deslogar': self.deslogar,
         }
@@ -39,6 +40,7 @@ class SistemaController:
             'SUPERMERCADOS': self.__supermercado_controller.listar_menus,
             'CATEGORIA': self.__categoria_controller.listar_menus,
             'CONTA': self.__pessoas_fisica_controller.listar_menus,
+            'RELATÓRIOS': self.__relatorios_controller.listar_menus,
             'Deslogar': self.deslogar,
         }
 
@@ -54,6 +56,10 @@ class SistemaController:
     @property
     def preco_controller(self):
         return self.__preco_controller
+
+    @property
+    def produto_controller(self):
+        return self.__produto_controller
 
     # OUTROS MÉTODOS
     def iniciar(self):
