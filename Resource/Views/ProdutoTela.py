@@ -16,26 +16,35 @@ class ProdutoTela(AbstractTela):
 
     def exibir_produtos_precos_supermercados(self, produtos: list):
         super().exibir_mensagem("Lista de Produtos e Preços")
-        if len(produtos) > 0:
-            i = 0
-            for produto, valores in produtos.items():
-                i += 1
-                print(i, '- ', produto.nome)
-                for valor in valores:
-                    print(' - ', valor)
-            return True
-        else:
-            print('Não há produtos cadastrados para seu supermercado!')
+        try:
+            if len(produtos) > 0:
+                i = 0
+                lista_produtos = []
+                for produto, valores in produtos.items():
+                    i += 1
+                    print(i, '- ', produto.nome)
+                    if len(valores) > 0:
+                        for valor in valores:
+                            print(' - ', valor)
+                    else:
+                        print('- nenhum valor informado')
+                    lista_produtos.append(produto)
+                opcao = int(input('Opção: '))
+                return lista_produtos[opcao - 1]
+            else:
+                print('Não há produtos cadastrados para seu supermercado!')
+                super().continuar()
+                return False
+        except ValueError:
+            print('Valor inválido!')
             super().continuar()
             return False
 
     def escolher_produtos_precos_supermercado(self, produtos):
-        lista_exibida = self.exibir_produtos_precos_supermercados(produtos)
-        if lista_exibida:
-            opcao = int(input('Opção: '))
-            return produtos[opcao - 1]
-        else:
-            return False
+        produto = self.exibir_produtos_precos_supermercados(produtos)
+        if produto:
+            return produto
+        return False
 
     def escolher_qualificadores(self):
         continuar = 1
