@@ -22,7 +22,12 @@ class PrecoTela(AbstractTela):
             return False
 
     def editar_preco_formulario(self):
-        pass
+        try:
+            valor = float(input('Preço: R$ '))
+            return {'valor': valor}
+        except ValueError:
+            print('Valor inválido.')
+            return False
 
     def exibir_lista_precos(self, precos):
         super().exibir_mensagem("Lista de Preços")
