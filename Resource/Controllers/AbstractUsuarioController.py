@@ -21,10 +21,6 @@ class AbstratcUsuarioController(ABC):
         pass
 
     @abstractmethod
-    def verificar_usuario(self, usuario):
-        pass
-
-    @abstractmethod
     def adicionar_usuario_lista(self, usuario):
         pass
 
