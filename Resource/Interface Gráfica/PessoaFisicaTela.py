@@ -17,6 +17,8 @@ class PessoaFisicaTela():
       opcao = 3
     if values['4']:
       opcao = 4
+    if values['5']:
+      opcao = 5 
     # cobre os casos de Retornar, fechar janela, ou clicar cancelar
     #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
     if values['0'] or button in (None, 'Cancelar'):
@@ -30,10 +32,11 @@ class PessoaFisicaTela():
     layout = [
       [sg.Text('PESSOA FÍSICA', font=("Helvica", 25))],
       [sg.Text('Escolha sua opção', font=("Helvica", 15))],
-      [sg.Radio('Cadastrar Usuário', "RD1", key='1')],
-      [sg.Radio('Editar Usuário', "RD1", key='2')],
-      [sg.Radio('Listar Usuários', "RD1", key='3')],
-      [sg.Radio('Excluir Usuário', "RD1", key='4')],
+      [sg.Radio('Logar Usuário', "RD1", key='1')],
+      [sg.Radio('Cadastrar Usuário', "RD1", key='2')],
+      [sg.Radio('Editar Usuário', "RD1", key='3')],
+      [sg.Radio('Listar Usuários', "RD1", key='4')],
+      [sg.Radio('Excluir Usuário', "RD1", key='5')],
       [sg.Radio('Retornar', "RD1", key='0')],
       [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
     ]
@@ -61,7 +64,7 @@ class PessoaFisicaTela():
     return {"nome": nome, "email": email, "cpf": cpf}
 
   # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-  def mostra_usuario(self, dados_usuario):
+  def exibir_lista_usuarios(self, dados_usuario: list):
     string_todos_usuarios = ""
     for dado in dados_usuario:
       string_todos_usuarios = string_todos_usuarios + "NOME DO USUÁRIO: " + dado["nome"] + '\n'
@@ -71,20 +74,29 @@ class PessoaFisicaTela():
     sg.Popup('-------- LISTA DE USUÁRIOS ----------', string_todos_usuarios)
 
   # fazer aqui tratamento dos dados, caso a entrada seja diferente do esperado
-  def seleciona_usuario(self):
+
+  def editar_usuario(self):
+    pass
+
+  def logar_usuario(self):
     sg.ChangeLookAndFeel('Reddit')
     layout = [
-      [sg.Text('-------- SELECIONAR USUÁRIO ----------', font=("Helvica", 25))],
-      [sg.Text('Digite o CPF do usuário que deseja selecionar:', font=("Helvica", 15))],
-      [sg.Text('CPF:', size=(15, 1)), sg.InputText('', key='cpf')],
+      [sg.Text('-------- LOGIN USUÁRIO ----------', font=("Helvica", 25))],
+      [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+      [sg.Text('Email:', size=(15, 1)), sg.InputText('', key='email')],
       [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
     ]
-    self.__window = sg.Window('Seleciona usuário').Layout(layout)
+    self.__window = sg.Window('Login Pessoa Física').Layout(layout)
 
     button, values = self.open()
-    cpf = values['cpf']
+    nome = values['nome']
+    email = values['email']
+
     self.close()
-    return cpf
+    return {"nome": nome, "email": email}
+
+  def excluir_usuario(self):
+    pass
 
   def mostra_mensagem(self, msg):
     sg.popup("", msg)

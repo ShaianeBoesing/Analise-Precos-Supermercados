@@ -17,6 +17,8 @@ class PessoaJuridicaTela():
       opcao = 3
     if values['4']:
       opcao = 4
+    if values['5']:
+      opcao = 5
     # cobre os casos de Retornar, fechar janela, ou clicar cancelar
     #Isso faz com que retornemos a tela do sistema caso qualquer uma dessas coisas aconteca
     if values['0'] or button in (None, 'Cancelar'):
@@ -30,10 +32,11 @@ class PessoaJuridicaTela():
     layout = [
       [sg.Text('PESSOA JURÍDICA', font=("Helvica", 25))],
       [sg.Text('Escolha sua opção', font=("Helvica", 15))],
-      [sg.Radio('Cadastrar Usuário', "RD1", key='1')],
-      [sg.Radio('Editar Usuário', "RD1", key='2')],
-      [sg.Radio('Listar Usuários', "RD1", key='3')],
-      [sg.Radio('Excluir Usuário', "RD1", key='4')],
+      [sg.Radio('Logar Usuário', "RD1", key='1')],
+      [sg.Radio('Cadastrar Usuário', "RD1", key='2')],
+      [sg.Radio('Editar Usuário', "RD1", key='3')],
+      [sg.Radio('Listar Usuários', "RD1", key='4')],
+      [sg.Radio('Excluir Usuário', "RD1", key='5')],
       [sg.Radio('Retornar', "RD1", key='0')],
       [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
     ]
@@ -84,7 +87,19 @@ class PessoaJuridicaTela():
     button, values = self.open()
     cnpj = values['cnpj']
     self.close()
-    return cnpj
+    return {"cnpj": cnpj}
+
+  def editar_usuario(self):
+    pass
+
+  def logar_usuario(self):
+    pass
+
+  def excluir_usuario(self):
+    pass
+
+  def exibir_lista_usuarios(self, usuarios: list):
+    pass
 
   def mostra_mensagem(self, msg):
     sg.popup("", msg)
