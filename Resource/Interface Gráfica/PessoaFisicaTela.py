@@ -50,7 +50,7 @@ class PessoaFisicaTela():
       [sg.Text('CPF:', size=(15, 1)), sg.InputText('', key='cpf')],
       [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
     ]
-    self.__window = sg.Window('Sistema Pessoa Física').Layout(layout)
+    self.__window = sg.Window('Cadastro Pessoa Física').Layout(layout)
 
     button, values = self.open()
     nome = values['nome']

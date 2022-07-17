@@ -1,11 +1,4 @@
-import PySimpleGUI as sg
+from PessoaFisicaTela import PessoaFisicaTela
+from PessoaJuridicaTela import PessoaJuridicaTela
 
-layout = [
-    [sg.Text('Incluir novo Cliente')],
-    [sg.Text('Nome', size=(15, 1)), sg.InputText('nome')],
-    [sg.Submit(), sg.Cancel()]
-]
-
-window = sg.Window('Cadastro de Clientes').Layout(layout)
-
-button, values = window.Read()
+fisica_tela = PessoaFisicaTela().open()

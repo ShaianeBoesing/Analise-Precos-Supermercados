@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-class PessoaFisicaTela():
+class PessoaJuridicaTela():
   def __init__(self):
     self.__window = None
     self.init_opcoes()
