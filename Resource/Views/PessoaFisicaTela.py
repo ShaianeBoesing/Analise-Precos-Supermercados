@@ -1,19 +1,31 @@
+import PySimpleGUI as sg
 from Resource.Views.AbstractTela import AbstractTela
-from Resource.Models.PessoaFisica import PessoaFisica
-
 
 class PessoaFisicaTela(AbstractTela):
     def __init__(self):
         super().__init__()
+        self.__window = None
+        self.init_gui()
+
 
     def cadastrar_usuario_formulario(self):
-        nome = input('Nome: ')
-        email = input('Email: ')
-        cpf = input('CPF (apenas números): ')
-        data = {'nome': nome,
-                'email': email,
-                'cpf': cpf}
-        return data
+        layout = [
+            [sg.Text('DADOS USUÁRIO', font=("Helvica", 18))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Text('Email:', size=(15, 1)), sg.InputText('', key='email')],
+            [sg.Text('CPF:', size=(15, 1)), sg.InputText('', key='cpf')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.__window = sg.Window('Cadastro Pessoa Física', element_justification='center').Layout(layout)
+
+        button, response = self.open()
+        self.close()
+
+        if button == "Confirmar":
+            return response
+
+        return False
+
 
     def editar_usuario(self):
         try:
@@ -60,3 +72,13 @@ class PessoaFisicaTela(AbstractTela):
         email = input('Email: ')
         data = {'nome': nome, 'email': email}
         return data
+
+    def init_gui(self):
+        sg.theme('LightBrown7')
+
+    def open(self):
+        button, values = self.__window.Read()
+        return button, values
+
+    def close(self):
+        self.__window.Close()

@@ -47,7 +47,7 @@ class PessoaFisicaController(AbstratcUsuarioController):
             self.__pessoa_fisica_tela.continuar()
 
         except Exception:
-            self.__pessoa_fisica_tela.exibir_mensagem('Ocorreu um erro ao criar seu usuário. '
+            self.__pessoa_fisica_tela.exibir_mensagem('Não foi possível criar seu usuário. '
                                                       'Tente novamente!')
             self.__pessoa_fisica_tela.continuar()
 
