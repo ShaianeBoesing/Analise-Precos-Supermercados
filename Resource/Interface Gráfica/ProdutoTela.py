@@ -85,8 +85,27 @@ class ProdutoTela():
 
         button, values = self.open()
         produto = values['produto']
+        
         self.close()
-        return produto
+        return {"produto": produto}
+
+    def escolher_qualificadores(self):
+        pass
+
+    def escolher_categorias(self, categorias: list):
+        pass
+
+    def editar_qualificador(self):
+        pass
+
+    def exibir_lista_produtos(self, produtos: list):
+        pass
+
+    def exibir_lista_qualificadores(self, qualificadores: list):
+        pass
+
+    def excluir_produto(self):
+        pass
 
     def mostra_mensagem(self, msg):
         sg.popup("", msg)

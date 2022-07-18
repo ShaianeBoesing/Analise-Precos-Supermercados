@@ -40,5 +40,3 @@ class SistemaTela():
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
         self.__window = sg.Window('Sistema de Cadastramento').Layout(layout)
-
-
