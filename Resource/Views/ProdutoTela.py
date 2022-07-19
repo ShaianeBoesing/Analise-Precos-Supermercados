@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 from Resource.Views.AbstractTela import AbstractTela
 from Resource.Exceptions.EmptyStringException import EmptyStringException
 
@@ -7,17 +8,33 @@ class ProdutoTela(AbstractTela):
         pass
 
     def cadastrar_produto_formulario(self, categorias):
-        nome = input('Nome: ')
-        descricao = input('Descrição: ')
-        qualificadores = self.escolher_qualificadores()
-        categoria = self.escolher_categorias(categorias)
-        if categoria:
-            return {'nome': nome,
-                    'descricao': descricao,
-                    'qualificadores': qualificadores,
-                    'categoria': categoria}
-        else:
-            return False
+        lista_cat = []
+        print(categorias)
+        for cat in categorias:
+            print(cat)
+            lista_cat.append(cat.nome)
+
+        layout = [
+            [sg.Text('-------- DADOS PRODUTO ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Text('Descrição:', size=(15, 1)), sg.InputText('', key='descricao')],
+            [sg.Text('Qualificadores (2):', size=(15, 1)), sg.InputText('', key='qualificador1')],
+            [sg.Text('', size=(15, 1)), sg.InputText('', key='qualificador2')], # inserir opção para escolher qualificadores
+            [sg.Text('Categoria:', size=(15, 1)), sg.Combo(lista_cat, key='categoria', size=(15,1))], # inserir opção para escolher categorias
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+
+        self.window = sg.Window('Cadastramento de Produto').Layout(layout)
+
+        button, response = self.open()
+        response['qualificadores'] = [response['qualificador1'],response['qualificador2']]
+        print(response)
+        self.close()
+        if button == "Confirmar":
+            return response
+
+        return False
+
     def exibir_produtos_precos_supermercados(self, produtos: list):
         super().exibir_mensagem("Lista de Produtos e Preços")
         try:

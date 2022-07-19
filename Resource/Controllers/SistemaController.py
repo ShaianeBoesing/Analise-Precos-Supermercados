@@ -71,12 +71,16 @@ class SistemaController:
         while self.__ON:
             opcao = self.__sistema_tela.ver_menu(menu_opcoes)
             if opcao:
-                usuario = menu_opcoes[opcao]()
-                self.__usuario_sessao = usuario
-                if isinstance(self.__usuario_sessao, PessoaJuridica):
-                    self.exibir_menu_sistema(self.__menu_opcoes_pessoa_juridica)
-                if isinstance(self.__usuario_sessao, PessoaFisica):
-                    self.exibir_menu_sistema(self.__menu_opcoes_pessoa_fisica)
+                if opcao == self.sair:
+                    self.sair()
+                else:
+                    usuario = menu_opcoes[opcao]()
+                    self.__usuario_sessao = usuario
+                    if isinstance(self.__usuario_sessao, PessoaJuridica):
+                        self.exibir_menu_sistema(self.__menu_opcoes_pessoa_juridica)
+                    if isinstance(self.__usuario_sessao, PessoaFisica):
+                        self.exibir_menu_sistema(self.__menu_opcoes_pessoa_fisica)
+
 
     def exibir_menu_sistema(self, menu_opcoes):
         while self.__usuario_sessao:

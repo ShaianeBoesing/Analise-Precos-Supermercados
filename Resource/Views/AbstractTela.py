@@ -1,33 +1,62 @@
+import PySimpleGUI as sg
 from abc import ABC, abstractmethod
 
+
 class AbstractTela(ABC):
-    
+
     @abstractmethod
     def __init__(self) -> None:
         super().__init__()
+        self.__window = None
+        self.init_gui()
 
-    def continuar(self):
-        input('Pressione <ENTER> para continuar')
+    @property
+    def window(self):
+        return self.__window
+
+    @window.setter
+    def window(self, window):
+        self.__window = window
 
     def ver_menu(self, opcoes):
-        menu_opcoes = [(item) for item in opcoes.keys()]
-        total = len(menu_opcoes)
-        for i in range(total):
-            print(i + 1, '-', menu_opcoes[i])
-
         try:
-            opcao = int(input('Opção: ')) - 1
-            if not (0 <= opcao < total):
-                raise ValueError(f'Valor maior que {i + 1}')
+            layout = [
+                [sg.Text('BEM VINDO AO SISTEMA!', font=("Helvica", 25))],
+                [sg.Text('Escolha sua opção', font=("Helvica", 15))],
+            ]
 
-        except ValueError:
-            print(f'O valor precisa ser um número inteiro entre 1 e {i + 1}')
-            self.continuar()
+            menu_opcoes = [(item) for item in opcoes.keys()]
+            total = len(menu_opcoes)
+
+            for i in range(total):
+                layout.append([sg.Radio(menu_opcoes[i], "RD1")])
+
+            layout.append([sg.Button('Confirmar'), sg.Cancel('Cancelar')])
+            self.__window = sg.Window('Sistema de Cadastramento').Layout(layout)
+            button, response = self.open()
+            self.close()
+
+            if button != 'Confirmar':
+                raise Exception()
+
+            opcao = [k for k, v in response.items() if v is True][0]
+
+        except Exception:
+            self.exibir_mensagem('Tente novamente!')
             return False
 
         return menu_opcoes[opcao]
 
     def exibir_mensagem(self, mensagem):
-        print("------------------------------ SISTEMA DIZ: ---------------------------")
-        print(mensagem)
-        print("-----------------------------------------------------------------------")
+        sg.popup("", mensagem)
+
+    def init_gui(self):
+        sg.theme('LightBrown7')
+
+    def open(self):
+        button, response = self.__window.Read()
+        return button, response
+
+    def close(self):
+        self.__window.Close()
+        self.__window = None

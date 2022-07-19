@@ -5,5 +5,4 @@ class SistemaTela(AbstractTela):
         super().__init__()
 
     def exibir_termino_sessao(self):
-        print('Sua sessão terminou!')
-        super().continuar()
+        self.exibir_mensagem('Sua sessão terminou! Até breve :)')

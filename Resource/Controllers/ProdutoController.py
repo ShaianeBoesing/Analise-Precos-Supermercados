@@ -43,24 +43,25 @@ class ProdutoController:
 
     # CRUD
     def criar_produto(self):
-        self.__tela_produto.exibir_mensagem('FORMULÁRIO DE PRODUTO: ')
-        categorias = self.__sistema.categoria_controller.lista_categorias
-        dados_produto = self.__tela_produto.cadastrar_produto_formulario(categorias)
-        if dados_produto:
-            novo_produto = Produto(
-                dados_produto['nome'],
-                dados_produto['descricao'],
-                dados_produto['qualificadores'],
-                dados_produto['categoria']
-            )
-            dados_produto['categoria'].adicionar_produto_lista(novo_produto)
-            self.adicionar_produto_lista(novo_produto)
+        try:
+            categorias = self.__sistema.categoria_controller.lista_categorias
+            dados_produto = self.__tela_produto.cadastrar_produto_formulario(categorias)
+            if dados_produto:
+                novo_produto = Produto(
+                    dados_produto['nome'],
+                    dados_produto['descricao'],
+                    dados_produto['qualificadores'],
+                    dados_produto['categoria']
+                )
+                dados_produto['categoria'].adicionar_produto_lista(novo_produto)
+                self.adicionar_produto_lista(novo_produto)
 
-            self.__tela_produto.exibir_mensagem("Produto cadastrado com sucesso!")
-        else:
+                self.__tela_produto.exibir_mensagem("Produto cadastrado com sucesso!")
+            else:
+                raise Exception();
+        except Exception as e:
+            print(e)
             self.__tela_produto.exibir_mensagem('Não foi possível cadastrar seu produto')
-
-        self.__tela_produto.continuar()
 
     def excluir_produto(self):
         produto = self.escolher_produto()
@@ -70,11 +71,9 @@ class ProdutoController:
                 self.remover_produto_lista(produto)
                 produto.categoria.remover_produto_lista(produto)
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
-                self.__tela_produto.continuar()
 
     def listar_produtos(self):
         self.__tela_produto.exibir_lista_produtos(self.__lista_produtos)
-        self.__tela_produto.continuar()
 
     # OUTROS MÉTODOS
     def editar_preco_produto(self):
@@ -118,7 +117,6 @@ class ProdutoController:
 
     def listar_qualificadores(self):
         self.__tela_produto.exibir_lista_qualificadores(self.__lista_qualificadores)
-        self.__tela_produto.continuar()
 
     def excluir_qualificador(self):
         qualificador = self.escolher_qualificador()
@@ -128,7 +126,6 @@ class ProdutoController:
                 if qualificador in self.__lista_qualificadores:
                     self.__lista_qualificadores.remove(qualificador)
                     self.__tela_produto.exibir_mensagem('Qualificador excluído com sucesso!')
-                    self.__tela_produto.continuar()
 
     def adicionar_preco_produto(self):
         self.__tela_produto.exibir_mensagem('ESCOLHA O PRODUTO QUE DESEJA INFORMAR PREÇO!')
@@ -152,7 +149,6 @@ class ProdutoController:
                 self.__sistema.preco_controller.listar_precos(lista_precos)
                 return lista_precos
         self.__tela_produto.exibir_mensagem('Não há preços cadastrados')
-        self.__tela_produto.continuar()
         return False
 
     def colaborar_precos_produtos(self):
@@ -174,14 +170,12 @@ class ProdutoController:
                     if opcao <= len(precos):
                         precos[opcao - 1].confirma_preco()
                         self.__tela_produto.exibir_mensagem('OBRIGADA PELA CONTRIBUIÇÃO!')
-                        self.__tela_produto.continuar()
                         return precos[opcao - 1]
                     else:
                         raise ValueError('Valor informado maior que o permitido')
                 except ValueError:
                     print(f'O valor deve ser um número inteiro entre 1 e {len(precos)}')
         self.__tela_produto.exibir_mensagem('Não há preços cadastrados')
-        self.__tela_produto.continuar()
         return False
 
     def excluir_preco_produto(self):
@@ -206,7 +200,6 @@ class ProdutoController:
                     produto.remove_preco(preco)
                     self.__sistema.preco_controller.remover_preco_lista(preco)
                     self.__tela_produto.exibir_mensagem('Preço excluído com sucesso')
-                    self.__tela_produto.continuar()
                 else:
                     raise ValueError('Valor informado maior que o permitido')
             except ValueError:

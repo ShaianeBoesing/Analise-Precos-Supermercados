@@ -4,8 +4,6 @@ from Resource.Views.AbstractTela import AbstractTela
 class PessoaFisicaTela(AbstractTela):
     def __init__(self):
         super().__init__()
-        self.__window = None
-        self.init_gui()
 
 
     def cadastrar_usuario_formulario(self):
@@ -16,8 +14,7 @@ class PessoaFisicaTela(AbstractTela):
             [sg.Text('CPF:', size=(15, 1)), sg.InputText('', key='cpf')],
             [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
         ]
-        self.__window = sg.Window('Cadastro Pessoa Física', element_justification='center').Layout(layout)
-
+        self.window = sg.Window('Cadastro Pessoa Física', element_justification='center').Layout(layout)
         button, response = self.open()
         self.close()
 
@@ -39,7 +36,6 @@ class PessoaFisicaTela(AbstractTela):
 
         except ValueError as e:
             print(e.args[0])
-            self.continuar()
             return False
 
     def exibir_lista_usuarios(self, usuarios: list):
@@ -65,20 +61,20 @@ class PessoaFisicaTela(AbstractTela):
             return confirma
         except ValueError:
             super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
-            super().continuar()
 
     def logar_formulario(self):
-        nome = input('Nome: ')
-        email = input('Email: ')
-        data = {'nome': nome, 'email': email}
-        return data
+        layout = [
+            [sg.Text('-------- LOGIN USUÁRIO ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Text('Email:', size=(15, 1)), sg.InputText('', key='email')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Login Pessoa Física').Layout(layout)
 
-    def init_gui(self):
-        sg.theme('LightBrown7')
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return response
 
-    def open(self):
-        button, values = self.__window.Read()
-        return button, values
+        return False
 
-    def close(self):
-        self.__window.Close()

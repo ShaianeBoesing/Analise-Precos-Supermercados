@@ -37,11 +37,9 @@ class CategoriaController:
         )
         self.adicionar_categoria_lista(nova_categoria)
         self.__tela_categoria.exibir_mensagem("Categoria cadastrada com sucesso!")
-        self.__tela_categoria.continuar()
 
     def listar_categorias(self):
         self.__tela_categoria.lista_categorias(self.__lista_categorias)
-        self.__tela_categoria.continuar()
 
     def alterar_categoria(self):
         categoria = self.escolher_categoria()
@@ -49,7 +47,6 @@ class CategoriaController:
             dados_categoria = self.__tela_categoria.alterar_categoria()
             categoria.nome = dados_categoria['nome']
             self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
-            self.__tela_categoria.continuar()
             return categoria
         return False
 

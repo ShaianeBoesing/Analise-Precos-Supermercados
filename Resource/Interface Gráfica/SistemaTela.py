@@ -27,8 +27,6 @@ class SistemaTela():
         self.__window.Close()
 
     def init_opcoes(self):
-        #sg.theme_previewer()
-        sg.ChangeLookAndFeel('Reddit')
         layout = [
             [sg.Text('Bem vindo ao sistema de cadastramento de preços de produtos de supermercado!', font=("Helvica", 25))],
             [sg.Text('Escolha sua opção', font=("Helvica", 15))],
