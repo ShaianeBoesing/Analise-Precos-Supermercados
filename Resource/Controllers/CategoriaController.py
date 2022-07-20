@@ -30,7 +30,6 @@ class CategoriaController:
 
     # CRUD
     def criar_categoria(self):
-        self.__tela_categoria.exibir_mensagem('FORMULÁRIO DE CATEGORIA: ')
         dados_categoria = self.__tela_categoria.cadastrar_categoria()
         nova_categoria = Categoria(
             dados_categoria['nome'],
@@ -39,12 +38,15 @@ class CategoriaController:
         self.__tela_categoria.exibir_mensagem("Categoria cadastrada com sucesso!")
 
     def listar_categorias(self):
-        self.__tela_categoria.lista_categorias(self.__lista_categorias)
+        lista_categorias = self.__lista_categorias
+        categorias = [v.nome for v in lista_categorias]
+        self.__tela_categoria.lista_categorias(categorias)
 
     def alterar_categoria(self):
         categoria = self.escolher_categoria()
         if categoria:
-            dados_categoria = self.__tela_categoria.alterar_categoria()
+            cat_dados = {'nome': categoria.nome}
+            dados_categoria = self.__tela_categoria.alterar_categoria(cat_dados)
             categoria.nome = dados_categoria['nome']
             self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
             return categoria
@@ -53,11 +55,10 @@ class CategoriaController:
     def excluir_categoria(self):
         categoria = self.escolher_categoria()
         if categoria:
-            confirma = self.__tela_categoria.exibir_confirmacao_exclusao()
+            confirma = self.__tela_categoria.exibir_confirmacao_exclusao("Tem certeza que deseja excluir esta categoria?")
             if confirma:
                 self.remover_categoria_lista(categoria)
                 self.__tela_categoria.exibir_mensagem('Categoria excluída com sucesso!')
-                self.__tela_categoria.continuar()
 
     # OUTROS MÉTODOS
     def adicionar_categoria_lista(self, categoria):
@@ -72,9 +73,10 @@ class CategoriaController:
 
     def escolher_categoria(self):
         categorias = self.__lista_categorias
-        opcao = self.__tela_categoria.escolher_categoria(categorias)
-        if opcao != False:
-            return categorias[opcao - 1]
+        dados = [v.nome for v in categorias]
+        opcao = self.__tela_categoria.escolher_categoria(dados)
+        if opcao is not None:
+            return categorias[opcao]
         return False
 
     def pesquisar_categoria(self, categoria):
