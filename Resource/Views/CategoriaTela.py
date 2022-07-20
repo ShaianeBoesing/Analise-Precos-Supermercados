@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 from Resource.Views.AbstractTela import AbstractTela
 from Resource.Exceptions.EmptyStringException import EmptyStringException
 
@@ -6,47 +7,93 @@ class CategoriaTela(AbstractTela):
         super().__init__()
     
     def cadastrar_categoria(self):
-        nome = input('Categoria: ')
-        return {'nome': nome}
+        layout = [
+            [sg.Text('-------- DADOS CATEGORIA ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Cadastro Categoria').Layout(layout)
 
-    def alterar_categoria(self):
-        nome = input('Nome: ')
-        return {'nome': nome}
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return response
+
+        return False
+
+    def alterar_categoria(self, categoria):
+        layout = [
+            [sg.Text('-------- DADOS CATEGORIA ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText(categoria['nome'], key='nome')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Edição Categoria').Layout(layout)
+
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return response
+
+        return False
 
     def escolher_categoria(self, categorias):
         try:
-            self.lista_categorias(categorias)
-            total = len(categorias)
-            opcao = int(input('Opção: '))
-            if not (0 < opcao <= total):
-                raise ValueError(f'Valor maior que {total}')
-            return opcao
+            total_categorias = len(categorias)
+            lista_cat = []
+            if total_categorias:
+                for cat in categorias:
+                    lista_cat.append([sg.Radio(cat, "RD2")])
+
+                layout = [
+                    [sg.Text('LISTA DE CATEGORIAS', font=("Helvica", 25))],
+                    lista_cat,
+                    [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+                ]
+                self.window = sg.Window('Cadastro Categoria').Layout(layout)
+
+                button, response = self.open()
+                self.close()
+                opcao = [k for k, v in response.items() if v is True]
+                if opcao:
+                    return opcao[0]
+                raise ValueError()
+            else:
+                self.exibir_mensagem('Não há categorias cadastradas!')
+                return None
         except ValueError:
-            print(f'O valor precisa ser um número inteiro entre 1 e {total}')
-            self.continuar()
-            return False
+            self.exibir_mensagem('Opção inválida')
+            return None
     
     def lista_categorias(self, categorias):
-        super().exibir_mensagem("Lista de Categorias")
         total_categorias = len(categorias)
-
+        lista_cat = []
         if total_categorias:
-            for i in range(total_categorias):
-                print(i + 1, '- ', categorias[i].nome)
+            for cat in categorias:
+                lista_cat.append([sg.Text(' - ' + cat, size=(15, 1))])
+
+            layout = [
+                [sg.Text('LISTA DE CATEGORIAS', font=("Helvica", 25))],
+                lista_cat,
+                [sg.Button('OK')]
+            ]
+            self.window = sg.Window('Cadastro Categoria').Layout(layout)
+
+            self.open()
+            self.close()
+
             return True
         else:
-            print('Não há categorias cadastradas!')
+            self.exibir_mensagem('Não há categorias cadastradas!')
             return False
 
-    def exibir_confirmacao_exclusao(self):
-        print('Tem certeza que deseja excluir esta categoria?')
-        print('1 - Sim')
-        print('0 - Não')
-        try:
-            confirma = int(input('Opção: '))
-            if not (0 <= confirma <= 1):
-                raise ValueError('Valor diferente de 0 e diferente de 1')
-            return confirma
-        except ValueError:
-            super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
-            super().continuar()
+    def exibir_confirmacao_exclusao(self, msg):
+        layout = [
+            [sg.Text(msg, font=("Helvica", 15))],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Confirmar Exclusão').Layout(layout)
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return 1
+        return 0
