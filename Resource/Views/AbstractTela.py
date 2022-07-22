@@ -50,6 +50,18 @@ class AbstractTela(ABC):
     def exibir_mensagem(self, mensagem):
         sg.popup("", mensagem)
 
+    def exibir_confirmacao_exclusao(self):
+        layout = [
+            [sg.Text('Tem certeza que deseja excluir?', font=("Helvica", 15))],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Confirmar Exclusão').Layout(layout)
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return 1
+        return 0
+
     def init_gui(self):
         sg.theme('LightBrown7')
 
