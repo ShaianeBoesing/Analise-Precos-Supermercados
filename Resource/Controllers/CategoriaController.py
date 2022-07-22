@@ -55,7 +55,7 @@ class CategoriaController:
     def excluir_categoria(self):
         categoria = self.escolher_categoria()
         if categoria:
-            confirma = self.__tela_categoria.exibir_confirmacao_exclusao("Tem certeza que deseja excluir esta categoria?")
+            confirma = self.__tela_categoria.exibir_confirmacao_exclusao()
             if confirma:
                 self.remover_categoria_lista(categoria)
                 self.__tela_categoria.exibir_mensagem('Categoria excluída com sucesso!')
