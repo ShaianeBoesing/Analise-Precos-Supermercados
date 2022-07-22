@@ -23,7 +23,6 @@ class SupermercadoController:
 
     # CRUD
     def criar_supermercado(self):
-        self.__tela_supermercado.exibir_mensagem('FORMULÁRIO DE SUPERMERCADO: ')
         dados_supermercado = self.__tela_supermercado.cadastrar_supermercado_formulario()
         novo_supermercado = Supermercado(
             dados_supermercado['nome'],
@@ -31,15 +30,17 @@ class SupermercadoController:
         )
         self.adicionar_supermercado_lista(novo_supermercado)
         self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
-        self.__tela_supermercado.continuar()
 
     def alterar_supermercado(self):
         supermercado = self.escolher_supermercado()
-        dados_supermercado = self.__tela_supermercado.editar_supermercado_formulario()
-        supermercado.nome = dados_supermercado['nome']
-        supermercado.endereco =  dados_supermercado['endereco']
-        self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
-        self.__tela_supermercado.continuar()
+        if supermercado:
+            sup_dados = {'nome': supermercado.nome, 'endereco': supermercado.endereco}
+            dados_supermercado = self.__tela_supermercado.editar_supermercado_formulario(sup_dados)
+            supermercado.nome = dados_supermercado['nome']
+            supermercado.endereco =  dados_supermercado['endereco']
+            self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
+            return supermercado
+        return False
 
     def excluir_supermercado(self):
         supermercado = self.escolher_supermercado()
@@ -48,18 +49,19 @@ class SupermercadoController:
             if confirma:
                 self.remover_supermercado_lista(supermercado)
                 self.__tela_supermercado.exibir_mensagem('Supermercado excluído com sucesso!')
-                self.__tela_supermercado.continuar()
 
     def listar_supermercados(self):
-        self.__tela_supermercado.exibir_listas_supermercados(self.__lista_supermercados)
-        self.__tela_supermercado.continuar()
+        lista_supermercados = self.__lista_supermercados
+        supermercado = [{'nome': v.nome, 'endereco': v.endereco} for v in lista_supermercados]
+        self.__tela_supermercado.exibir_listas_supermercados(supermercado)
 
     # OUTROS MÉTODOS
     def escolher_supermercado(self):
         supermercados = self.__lista_supermercados
-        opcao = self.__tela_supermercado.escolher_supermercado(supermercados)
-        if opcao != False:
-            return supermercados[opcao - 1]
+        dados = [v.nome for v in supermercados]
+        opcao = self.__tela_supermercado.escolher_supermercado(dados)
+        if opcao is not None:
+            return supermercados[opcao]
         return False
 
     def adicionar_supermercado_lista(self, supermercado):
