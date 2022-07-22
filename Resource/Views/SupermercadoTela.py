@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 from Resource.Controllers.SupermercadoController import *
 from Resource.Views.AbstractTela import AbstractTela
 
@@ -7,40 +8,90 @@ class SupermercadoTela(AbstractTela):
         pass
 
     def cadastrar_supermercado_formulario(self):
-        nome = input('Nome: ')
-        endereco = input('Endereco: ')
-        return {'nome': nome,
-                'endereco': endereco}
+        layout = [
+            [sg.Text('-------- DADOS DO SUPERMERCADO ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText('', key='nome')],
+            [sg.Text('Endereço:', size=(15, 1)), sg.InputText('', key='endereco')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Cadastro Supermercado').Layout(layout)
 
-    def editar_supermercado_formulario(self):
-        nome = input('Nome: ')
-        endereco = input('Endereco: ')
-        return {'nome': nome,
-                'endereco': endereco}
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return response
+
+        return False
+
+
+    def editar_supermercado_formulario(self, supermercado):
+        layout = [
+            [sg.Text('-------- DADOS SUPERMERCADO ----------', font=("Helvica", 25))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText(supermercado['nome'], key='nome')],
+            [sg.Text('Endereço:', size=(15, 1)), sg.InputText(supermercado['endereco'], key='endereco')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Edição Supermercado').Layout(layout)
+
+        button, response = self.open()
+        self.close()
+        if button == "Confirmar":
+            return response
+
+        return False
 
     def exibir_listas_supermercados(self, supermercados: list):
-        super().exibir_mensagem("Lista de Supermercados")
         total_supermercados = len(supermercados)
-
+        print(total_supermercados)
+        lista_sup = []
         if total_supermercados:
-            for i in range(total_supermercados):
-                print(i + 1, '- ', supermercados[i].nome, ' | ', supermercados[i].endereco)
+            for sup in supermercados:
+                lista_sup.append([sg.Text(' - '
+                                          + sup['nome']
+                                          + ' | '
+                                          + sup['endereco'],
+                                          size=(15, 1))])
+
+            layout = [
+                [sg.Text('LISTA DE SUPERMERCADO', font=("Helvica", 25))],
+                lista_sup,
+                [sg.Button('OK')]
+            ]
+            self.window = sg.Window('Cadastro Supermercado').Layout(layout)
+
+            self.open()
+            self.close()
+
             return True
         else:
-            print('Não há supermercados cadastrados!')
+            self.exibir_mensagem('Não há supermercados cadastrados!')
             return False
 
     def escolher_supermercado(self, supermercados):
         try:
-            if self.exibir_listas_supermercados(supermercados):
-                total = len(supermercados)
-                opcao = int(input('Opção: '))
-                if not (0 < opcao <= total):
-                    raise ValueError(f'Valor maior que {total}')
-                return opcao
-            return False
+            total = len(supermercados)
+            lista_sup = []
+            if total:
+                for sup in supermercados:
+                    lista_sup.append([sg.Radio(sup, "RD3")])
+
+                layout = [
+                    [sg.Text('LISTA DE SUPERMERCADOS', font=("Helvica", 25))],
+                    lista_sup,
+                    [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+                ]
+                self.window = sg.Window('Cadastro Categoria').Layout(layout)
+
+                button, response = self.open()
+                self.close()
+                opcao = [k for k, v in response.items() if v is True]
+                if opcao:
+                    return opcao[0]
+                raise ValueError()
+            else:
+                self.exibir_mensagem('Não há categorias cadastradas!')
+                return None
         except ValueError:
-            print(f'O valor precisa ser um número inteiro entre 1 e {total}')
-            self.continuar()
-            return False
+            self.exibir_mensagem('Opção inválida')
+            return None
 
