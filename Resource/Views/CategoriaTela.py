@@ -86,14 +86,3 @@ class CategoriaTela(AbstractTela):
             self.exibir_mensagem('Não há categorias cadastradas!')
             return False
 
-    def exibir_confirmacao_exclusao(self, msg):
-        layout = [
-            [sg.Text(msg, font=("Helvica", 15))],
-            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
-        ]
-        self.window = sg.Window('Confirmar Exclusão').Layout(layout)
-        button, response = self.open()
-        self.close()
-        if button == "Confirmar":
-            return 1
-        return 0
