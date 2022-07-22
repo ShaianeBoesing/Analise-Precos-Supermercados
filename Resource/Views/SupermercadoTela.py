@@ -44,15 +44,3 @@ class SupermercadoTela(AbstractTela):
             self.continuar()
             return False
 
-    def exibir_confirmacao_exclusao(self):
-        print('Tem certeza que deseja excluir este supermercado?')
-        print('1 - Sim')
-        print('0 - Não')
-        try:
-            confirma = int(input('Opção: '))
-            if not (0 <= confirma <= 1):
-                raise ValueError('Valor diferente de 0 e diferente de 1')
-            return confirma
-        except ValueError:
-            super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
-            super().continuar()
