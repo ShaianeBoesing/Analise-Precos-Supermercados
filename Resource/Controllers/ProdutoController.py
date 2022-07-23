@@ -91,9 +91,15 @@ class ProdutoController:
 
     def escolher_produto(self):
         produtos = self.__lista_produtos
-        opcao = self.__tela_produto.escolher_produto(produtos)
-        if opcao != False:
-            return produtos[opcao - 1]
+        dados = [v.nome
+                 + ' '
+                 + v.qualificadores[0].nome
+                 + ' e '
+                 + v.qualificadores[1].nome for v in produtos]
+        print(dados)
+        opcao = self.__tela_produto.escolher_produto(dados)
+        if opcao is not None:
+            return produtos[opcao]
         return False
 
     def escolher_qualificador(self):

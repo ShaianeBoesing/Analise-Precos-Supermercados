@@ -171,13 +171,34 @@ class ProdutoTela(AbstractTela):
 
     def escolher_produto(self, produtos):
         try:
-            if self.exibir_lista_produtos(produtos):
-                total = len(produtos)
-                opcao = int(input('Opção: '))
-                if not (0 < opcao <= total):
-                    raise ValueError(f'Valor inválido')
-                return opcao
-            return False
+            total = len(produtos)
+            lista_prod = []
+            if total:
+                for prod in produtos:
+                    lista_prod.append([sg.Radio(prod, "RD2")])
+
+                layout = [
+                    [sg.Text('LISTA DE PRODUTOS', font=("Helvica", 25))],
+                    lista_prod,
+                    [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+                ]
+                self.window = sg.Window('Escolher Produto').Layout(layout)
+
+                button, response = self.open()
+                self.close()
+                opcao = [k for k, v in response.items() if v is True]
+                print(opcao)
+                if button=="Confirmar":
+                    if opcao:
+                        return opcao[0]
+                    self.exibir_mensagem('Opção inválida')
+                raise ValueError()
+            else:
+                self.exibir_mensagem('Não há produtos cadastradas!')
+                return None
+        except ValueError:
+            return None
+
         except ValueError:
             print(f'O valor precisa ser um número inteiro entre 1 e {total}')
             self.continuar()
