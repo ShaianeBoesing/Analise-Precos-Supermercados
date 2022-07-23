@@ -79,7 +79,11 @@ class ProdutoController:
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
 
     def listar_produtos(self):
-        self.__tela_produto.exibir_lista_produtos(self.__lista_produtos)
+        lista_produtos = self.__lista_produtos
+        produtos = [{'nome': v.nome,
+                     'qualificadores': v.qualificadores,
+                     'categoria':v.categoria.nome} for v in lista_produtos]
+        self.__tela_produto.exibir_lista_produtos(produtos)
 
     # OUTROS MÉTODOS
     def editar_preco_produto(self):

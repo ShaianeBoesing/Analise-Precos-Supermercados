@@ -130,15 +130,25 @@ class ProdutoTela(AbstractTela):
         return qualificadores
 
     def exibir_lista_produtos(self, produtos):
-        super().exibir_mensagem("Lista de Produtos")
         total_produtos = len(produtos)
-
+        lista_prod = []
         if total_produtos:
-            for i in range(total_produtos):
-                print(i + 1, '- ', produtos[i].nome, '|', produtos[i].descricao, '|', produtos[i].categoria.nome)
-                for q in produtos[i].qualificadores:
-                    print('  -', q.nome)
-                print('-' * 71)
+            for prod in produtos:
+                lista_prod.append([sg.Text(prod['nome'], font=('Helvica', 18))])
+                lista_prod.append([sg.Text(  prod['categoria'] + ' | '
+                                           + prod['qualificadores'][0].nome + ' e '
+                                           + prod['qualificadores'][1].nome)])
+                lista_prod.append([sg.Text('-'*70, size=(15, 1))])
+
+            layout = [
+                [sg.Text('LISTA DE PRODUTOS', font=("Helvica", 25))],
+                lista_prod,
+                [sg.Button('OK')]
+            ]
+            self.window = sg.Window('Cadastro Produto').Layout(layout)
+            self.open()
+            self.close()
+
             return True
         else:
             print('Não há produtos cadastrados!')
