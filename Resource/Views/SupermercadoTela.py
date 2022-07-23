@@ -85,13 +85,14 @@ class SupermercadoTela(AbstractTela):
                 button, response = self.open()
                 self.close()
                 opcao = [k for k, v in response.items() if v is True]
-                if opcao:
-                    return opcao[0]
+                if button=="Confirmar":
+                    if opcao:
+                        return opcao[0]
+                    self.exibir_mensagem('Opção inválida')
                 raise ValueError()
             else:
                 self.exibir_mensagem('Não há categorias cadastradas!')
                 return None
         except ValueError:
-            self.exibir_mensagem('Opção inválida')
             return None
 
