@@ -1,11 +1,12 @@
 from Resource.Models.Categoria import Categoria
 from Resource.Views.CategoriaTela import CategoriaTela
+from Resource.DAO.CategoriaDAO import CategoriaDAO
 
 class CategoriaController:
 
     def __init__(self):
         self.__tela_categoria = CategoriaTela(self)
-        self.__lista_categorias = []
+        self.__categoria_dao = CategoriaDAO()
         self.__menu_opcoes = {
             'Cadastrar Categoria': self.criar_categoria,
             'Listar Categorias': self.listar_categorias,
@@ -21,8 +22,8 @@ class CategoriaController:
         return self.__tela_categoria
 
     @property
-    def lista_categorias(self):
-        return self.__lista_categorias
+    def categoria_dao(self):
+        return self.__categoria_dao
 
     @property
     def ON(self):
@@ -40,7 +41,7 @@ class CategoriaController:
         self.__tela_categoria.continuar()
 
     def listar_categorias(self):
-        self.__tela_categoria.lista_categorias(self.__lista_categorias)
+        self.__tela_categoria.lista_categorias(self.__categoria_dao.get_all())
         self.__tela_categoria.continuar()
 
     def alterar_categoria(self):
@@ -65,16 +66,15 @@ class CategoriaController:
     # OUTROS MÉTODOS
     def adicionar_categoria_lista(self, categoria):
         if isinstance(categoria, Categoria):
-            if categoria not in self.__lista_categorias:
-                self.__lista_categorias.append(categoria)
+            if categoria not in self.__categoria_dao.get_all():
+                self.__categoria_dao.add(categoria)
 
     def remover_categoria_lista(self, categoria):
         if isinstance(categoria, Categoria):
-            if categoria in self.__lista_categorias:
-                self.__lista_categorias.remove(categoria)
+            self.__categoria_dao.remove(categoria)
 
     def escolher_categoria(self):
-        categorias = self.__lista_categorias
+        categorias = self.__categoria_dao.get_all()
         opcao = self.__tela_categoria.escolher_categoria(categorias)
         if opcao != False:
             return categorias[opcao - 1]

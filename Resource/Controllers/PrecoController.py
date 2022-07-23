@@ -1,19 +1,18 @@
 from Resource.Models.Preco import Preco
 from Resource.Views.PrecoTela import PrecoTela
 from datetime import datetime
-
-
+from Resource.DAO.PrecoDAO import PrecoDAO
 
 class PrecoController:
     def __init__(self, sistema):
-        self.__lista_precos = []
+        self.__preco_dao = PrecoDAO()
         self.__sistema = sistema
         self.__tela_preco = PrecoTela(self)
 
     #  GETTERS
     @property
-    def lista_precos(self):
-        return self.__lista_precos
+    def preco_dao(self):
+        return self.__preco_dao
 
     @property
     def sistema(self):
@@ -49,7 +48,7 @@ class PrecoController:
 
     def listar_precos(self, lista_precos = None):
         if not lista_precos:
-            lista_precos = self.__lista_precos
+            lista_precos = self.__preco_dao.get_all()
         self.__tela_preco.exibir_lista_precos(lista_precos)
         self.__tela_preco.continuar()
 
@@ -66,14 +65,14 @@ class PrecoController:
     def buscar_precos_supermercados(self):
         precos_supermercado = []
         usuario = self.__sistema.usuario_sessao
-        for preco in self.__lista_precos:
+        for preco in self.__preco_dao.get_all():
             if preco.supermercado == usuario.supermercado:
                 precos_supermercado.append(preco)
 
         return precos_supermercado
 
     def escolher_preco(self):
-        precos = self.__lista_precos
+        precos = self.__preco_dao.get_all()
         opcao = self.__tela_preco.escolher_produto(precos)
         if opcao != False:
             return precos[opcao - 1]
@@ -81,17 +80,16 @@ class PrecoController:
 
     def adicionar_preco_lista(self, preco):
         if isinstance(preco, Preco):
-            if preco not in self.__lista_precos:
-                self.__lista_precos.append(preco)
+            if preco not in self.__preco_dao.get_all():
+                self.__preco_dao.add(preco)
 
     def remover_preco_lista(self, preco):
         if isinstance(preco, Preco):
-            if preco in self.__lista_precos:
-                self.__lista_precos.remove(preco)
+            self.__preco_dao.remove(preco)
 
     def incrementar_contador(self, preco):
         if isinstance(preco, Preco):
-            if preco in self.__lista_precos:
+            if preco in self.__preco_dao.get_all():
                 self.__contador += 1
             else:
                 self.__contador = 1

@@ -1,11 +1,12 @@
 from Resource.Models.Produto import Produto
 from Resource.Views.ProdutoTela import ProdutoTela
+from Resource.DAO.ProdutoDAO import ProdutoDAO
 
 
 class ProdutoController:
     def __init__(self, sistema):
         self.__tela_produto = ProdutoTela(self)
-        self.__lista_produtos = []
+        self.__produto_dao = ProdutoDAO()
         self.__lista_qualificadores = []
         self.__sistema = sistema
         self.__menu_opcoes = {
@@ -26,8 +27,8 @@ class ProdutoController:
         return self.__tela_produto
 
     @property
-    def lista_produtos(self):
-        return self.__lista_produtos
+    def produto_dao(self):
+        return self.__produto_dao
 
     @property
     def lista_qualificadores(self):
@@ -44,7 +45,7 @@ class ProdutoController:
     # CRUD
     def criar_produto(self):
         self.__tela_produto.exibir_mensagem('FORMULÁRIO DE PRODUTO: ')
-        categorias = self.__sistema.categoria_controller.lista_categorias
+        categorias = self.__sistema.categoria_controller.categoria_dao.get_all()
         dados_produto = self.__tela_produto.cadastrar_produto_formulario(categorias)
         if dados_produto:
             novo_produto = Produto(
@@ -73,7 +74,7 @@ class ProdutoController:
                 self.__tela_produto.continuar()
 
     def listar_produtos(self):
-        self.__tela_produto.exibir_lista_produtos(self.__lista_produtos)
+        self.__tela_produto.exibir_lista_produtos(self.__produto_dao.get_all())
         self.__tela_produto.continuar()
 
     # OUTROS MÉTODOS
@@ -81,7 +82,7 @@ class ProdutoController:
         opcao = self.escolher_precos_produtos_por_supermercado()
 
     def escolher_produto(self):
-        produtos = self.__lista_produtos
+        produtos = self.__produto_dao.get_all()
         opcao = self.__tela_produto.escolher_produto(produtos)
         if opcao != False:
             return produtos[opcao - 1]
@@ -108,13 +109,12 @@ class ProdutoController:
 
     def adicionar_produto_lista(self, produto):
         if isinstance(produto, Produto):
-            if produto not in self.__lista_produtos:
-                self.__lista_produtos.append(produto)
+            if produto not in self.__produto_dao.get_all():
+                self.__produto_dao.add(produto)
 
     def remover_produto_lista(self, produto):
         if isinstance(produto, Produto):
-            if produto in self.__lista_produtos:
-                self.__lista_produtos.remove(produto)
+            self.__produto_dao.remove(produto)
 
     def listar_qualificadores(self):
         self.__tela_produto.exibir_lista_qualificadores(self.__lista_qualificadores)
@@ -159,8 +159,8 @@ class ProdutoController:
         self.__tela_produto.exibir_mensagem('PREÇOS DE PRODUTOS POR SUPERMERCADOS!')
         precos = []
         cont = 1
-        if len(self.__lista_produtos) > 0:
-            for produto in self.__lista_produtos:
+        if len(self.__produto_dao.get_all()) > 0:
+            for produto in self.__produto_dao.get_all():
                 for preco in produto.precos:
                     print(f'{cont} - {produto.nome} | {preco.supermercado.nome} = {preco.valor}')
                     for qualificador in produto.qualificadores:
@@ -188,9 +188,9 @@ class ProdutoController:
         self.__tela_produto.exibir_mensagem('EXCLUIR PREÇO DE PRODUTO!')
         precos = []
         cont = 1
-        if len(self.__lista_produtos) > 0:
+        if len(self.__produtos_dao.get_all()) > 0:
             self.__tela_produto.exibir_mensagem('QUAL PREÇO QUER EXCLUIR?')
-            for produto in self.__lista_produtos:
+            for produto in self.__produtos_dao.get_all():
                 for preco in produto.precos:
                     print(f'{cont} - {produto.nome} | {preco.supermercado.nome} = {preco.valor}')
                     for qualificador in produto.qualificadores:
