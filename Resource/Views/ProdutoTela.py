@@ -9,10 +9,8 @@ class ProdutoTela(AbstractTela):
 
     def cadastrar_produto_formulario(self, categorias):
         lista_cat = []
-        print(categorias)
         for cat in categorias:
-            print(cat)
-            lista_cat.append(cat.nome)
+            lista_cat.append(cat)
 
         layout = [
             [sg.Text('-------- DADOS PRODUTO ----------', font=("Helvica", 25))],
@@ -28,7 +26,6 @@ class ProdutoTela(AbstractTela):
 
         button, response = self.open()
         response['qualificadores'] = [response['qualificador1'],response['qualificador2']]
-        print(response)
         self.close()
         if button == "Confirmar":
             return response

@@ -44,8 +44,14 @@ class ProdutoController:
     # CRUD
     def criar_produto(self):
         try:
-            categorias = self.__sistema.categoria_controller.lista_categorias
+            lista_categorias = {}
+            for cat in self.__sistema.categoria_controller.lista_categorias:
+                lista_categorias[cat.nome] = cat
+
+            categorias =  [k for k in lista_categorias]
             dados_produto = self.__tela_produto.cadastrar_produto_formulario(categorias)
+            categoria = lista_categorias[dados_produto['categoria']]
+            dados_produto['categoria'] = categoria
             if dados_produto:
                 novo_produto = Produto(
                     dados_produto['nome'],
