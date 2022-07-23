@@ -47,9 +47,10 @@ class CategoriaController:
         if categoria:
             cat_dados = {'nome': categoria.nome}
             dados_categoria = self.__tela_categoria.alterar_categoria(cat_dados)
-            categoria.nome = dados_categoria['nome']
-            self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
-            return categoria
+            if dados_categoria:
+                categoria.nome = dados_categoria['nome']
+                self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
+                return categoria
         return False
 
     def excluir_categoria(self):
