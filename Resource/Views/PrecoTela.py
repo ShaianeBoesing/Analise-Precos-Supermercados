@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 from Resource.Views.AbstractTela import AbstractTela
 from Resource.Exceptions.EmptyStringException import EmptyStringException
 
@@ -6,17 +7,27 @@ class PrecoTela(AbstractTela):
         self.__controlador = controlador
 
 
-    def cadastrar_preco_formulario(self):
+    def cadastrar_preco_formulario(self, supermercados):
         try:
-            valor = float(input('Preço: R$ '))
-            print('Para qual supermercado?')
-            supermercado = self.__controlador.sistema.supermercado_controller.escolher_supermercado()
-            if supermercado:
-                return {'valor': valor,
-                        'supermercado': supermercado
-                        }
-            super().continuar()
+            lista_supermercados = []
+            for sup in supermercados:
+                lista_supermercados.append(sup)
+
+            layout = [
+                [sg.Text('-------- CADASTRAR PREÇO ----------', font=("Helvica", 25))],
+                [sg.Text('Preço:', size=(15, 1)), sg.InputText('', key='valor')],
+                [sg.Text('Supermercado:', size=(15, 1)), sg.Combo(lista_supermercados, key='supermercado', size=(15, 1))],
+                [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+            ]
+            self.window = sg.Window('Cadastro Preço').Layout(layout)
+
+            button, response = self.open()
+            self.close()
+            if button == "Confirmar":
+                return response
+
             return False
+
         except ValueError:
             print('Valor inválido.')
             return False
@@ -30,33 +41,25 @@ class PrecoTela(AbstractTela):
             return False
 
     def exibir_lista_precos(self, precos):
-        super().exibir_mensagem("Lista de Preços")
         total_precos = len(precos)
+        lista_preco = []
 
         if total_precos:
-            for i in range(total_precos):
-                print(f'{i+1}º PREÇO: ')
-                print(f'{precos[i].produto.nome} | {precos[i].supermercado.nome} =  R$ {precos[i].valor} ({precos[i].contador} votos)')
-                for qualificador in precos[i].qualificadores:
-                    print('- ', qualificador.nome)
+            for preco in precos:
+                lista_preco.append([sg.Text('- ' + preco, font=('Helvica', 15))])
+
+            layout = [
+                [sg.Text('LISTA DE PREÇOS', font=("Helvica", 25))],
+                lista_preco,
+                [sg.Button('OK')]
+            ]
+            self.window = sg.Window('Lista preços').Layout(layout)
+            self.open()
+            self.close()
 
             return True
         else:
-            print('Não há preços cadastrados!')
             return False
-
-    def exibir_confirmacao_exclusao(self):
-        print('Tem certeza que deseja excluir este preço?')
-        print('1 - Sim')
-        print('0 - Não')
-        try:
-            confirma = int(input('Opção: '))
-            if not (0 <= confirma <= 1):
-                raise ValueError('Valor diferente de 0 e diferente de 1')
-            return confirma
-        except ValueError:
-            super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
-            super().continuar()
 
     def escolher_produto(self):
         continuar = 1
@@ -116,3 +119,62 @@ class PrecoTela(AbstractTela):
             print('Não há supermercados cadastrados!')
             return False
 
+    def colaborar_precos_formulario(self, precos):
+        total_precos = len(precos)
+        lista_prec = []
+        if total_precos:
+            for prec in precos:
+                preco = prec['produto'] + prec['supermercado'] + prec['valor']
+                lista_prec.append([sg.Checkbox(preco)])
+
+            layout = [
+                [sg.Text('Selecione os preços que concorda', font=("Helvica", 25))],
+                lista_prec,
+                [sg.Button('Confirmar'), sg.Button('Cancelar')]
+            ]
+            self.window = sg.Window('Colaborar Preços').Layout(layout)
+
+            button, response = self.open()
+            self.close()
+            selecionados = [k for k, v in response.items() if v is True]
+            print(response, selecionados)
+            if button == "Confirmar":
+                if selecionados:
+                    self.exibir_mensagem('Obrigada por contribuir!')
+                    return selecionados
+
+            return False
+        else:
+            self.exibir_mensagem('Não há preços cadastradovs!')
+            return False
+
+    def escolher_preco(self, precos):
+        try:
+            total_precos = len(precos)
+            lista_prec = []
+            if total_precos:
+                for prec in precos:
+                    preco = prec['produto'] + prec['supermercado'] + prec['valor']
+                    lista_prec.append([sg.Radio(preco, "RD5")])
+
+                layout = [
+                    [sg.Text('LISTA DE PREÇOS', font=("Helvica", 25))],
+                    lista_prec,
+                    [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+                ]
+                self.window = sg.Window('Escolher Preço').Layout(layout)
+
+                button, response = self.open()
+                self.close()
+                opcao = [k for k, v in response.items() if v is True]
+                if button=="Confirmar":
+                    if opcao:
+                        return opcao[0]
+                    self.exibir_mensagem('Opção inválida')
+
+                raise ValueError()
+            else:
+                self.exibir_mensagem('Não há preços cadastradas!')
+                return None
+        except ValueError:
+            return None
