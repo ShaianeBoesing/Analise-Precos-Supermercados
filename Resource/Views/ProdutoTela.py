@@ -87,25 +87,6 @@ class ProdutoTela(AbstractTela):
 
         return qualificadores
 
-    def escolher_categorias(self, categorias):
-        try:
-            tam_categoria = len(categorias)
-            if tam_categoria > 0:
-                super().exibir_mensagem('Escolha uma categoria: ')
-                for i in range(tam_categoria):
-                    print(f'{i+1} - {categorias[i].nome}')
-                opcao = int(input('Opção: '))
-                if opcao > tam_categoria:
-                    raise ValueError
-                return categorias[opcao - 1]
-            else:
-                super().exibir_mensagem('Não há categorias cadastradas')
-                return False
-        except ValueError:
-            print(f'O valor deve ser um número inteiro entre 1 e {tam_categoria}')
-            return False
-
-
     def editar_qualificador(self):
         continuar = 1
         qualificadores = []
@@ -145,7 +126,7 @@ class ProdutoTela(AbstractTela):
                 lista_prod,
                 [sg.Button('OK')]
             ]
-            self.window = sg.Window('Cadastro Produto').Layout(layout)
+            self.window = sg.Window('Lista Produtos').Layout(layout)
             self.open()
             self.close()
 
