@@ -1,3 +1,4 @@
+from Resource.DAO.PessoaFisicaDAO import PessoaFisicaDAO
 from Resource.Models.Preco import Preco
 from Resource.Views.PrecoTela import PrecoTela
 from datetime import datetime

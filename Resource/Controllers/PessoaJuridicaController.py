@@ -1,12 +1,13 @@
 from Resource.Controllers.AbstractUsuarioController import AbstratcUsuarioController
 from Resource.Models.PessoaJuridica import PessoaJuridica
 from Resource.Views.PessoaJuridicaTela import PessoaJuridicaTela
+from Resource.DAO.PessoaJuridicaDAO import PessoaJuridicaDAO
 
 
 class PessoaJuridicaController(AbstratcUsuarioController):
     def __init__(self, sistema):
         self.__pessoa_juridica_tela = PessoaJuridicaTela(self)
-        self.__lista_pessoas_juridicas = []
+        self.__pessoa_juridica_dao = PessoaJuridicaDAO()
         self.__ON = True
         self.__menu_opcoes = {
             'Editar Usuário': self.alterar_usuario,
@@ -23,8 +24,8 @@ class PessoaJuridicaController(AbstratcUsuarioController):
         return self.__pessoa_juridica_tela
 
     @property
-    def lista_pessoas_juridicas(self):
-        return self.__lista_pessoas_juridicas
+    def pessoa_juridica_dao(self):
+        return self.__pessoa_juridica_dao
 
     @property
     def ON(self):
@@ -37,7 +38,7 @@ class PessoaJuridicaController(AbstratcUsuarioController):
     # CRUD
     def criar_usuario(self):
         self.__pessoa_juridica_tela.exibir_mensagem('FORMULÁRIO DE PESSOA JURÍDICA: ')
-        supermercados = self.__sistema.supermercado_controller.lista_supermercados
+        supermercados = self.__sistema.supermercado_controller.supermercado_dao.get_all()
         dados = self.__pessoa_juridica_tela.cadastrar_usuario_formulario(supermercados)
         if (dados):
             novo_usuario = PessoaJuridica(dados['nome'],
@@ -69,7 +70,7 @@ class PessoaJuridicaController(AbstratcUsuarioController):
                 self.__pessoa_juridica_tela.continuar()
 
     def listar_usuarios(self):
-        self.__pessoa_juridica_tela.exibir_lista_usuarios(self.__lista_pessoas_juridicas)
+        self.__pessoa_juridica_tela.exibir_lista_usuarios(self.__pessoa_juridica_dao.get_all())
         self.__pessoa_juridica_tela.continuar()
 
     def ver_conta(self):
@@ -80,14 +81,14 @@ class PessoaJuridicaController(AbstratcUsuarioController):
     # OUTROS MÉTODOS
     def adicionar_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaJuridica) and \
-                (usuario not in self.__lista_pessoas_juridicas):
-            self.__lista_pessoas_juridicas.append(usuario)
+                (usuario not in self.__pessoa_juridica_dao.get_all()):
+            self.__pessoa_juridica_dao.add(usuario)
 
     def logar(self):
         dados = self.__pessoa_juridica_tela.logar_formulario()
 
         # Procura por nome e senha
-        for usuario in self.__lista_pessoas_juridicas:
+        for usuario in self.__pessoa_juridica_dao.get_all():
             if (usuario.nome == dados["nome"]) and (usuario.email == dados["email"]):
                 return usuario
         else:
@@ -106,8 +107,7 @@ class PessoaJuridicaController(AbstratcUsuarioController):
 
     def remover_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaJuridica):
-            if usuario in self.__lista_pessoas_juridicas:
-                self.__lista_pessoas_juridicas.remove(usuario)
+            self.__pessoa_juridica_dao.remove(usuario)
    
     def voltar(self):
         self.__ON = False
