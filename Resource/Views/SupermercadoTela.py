@@ -80,7 +80,7 @@ class SupermercadoTela(AbstractTela):
                     lista_sup,
                     [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
                 ]
-                self.window = sg.Window('Cadastro Categoria').Layout(layout)
+                self.window = sg.Window('Cadastro Supermercado').Layout(layout)
 
                 button, response = self.open()
                 self.close()
@@ -91,7 +91,7 @@ class SupermercadoTela(AbstractTela):
                     self.exibir_mensagem('Opção inválida')
                 raise ValueError()
             else:
-                self.exibir_mensagem('Não há categorias cadastradas!')
+                self.exibir_mensagem('Não há Supermercados cadastradas!')
                 return None
         except ValueError:
             return None
