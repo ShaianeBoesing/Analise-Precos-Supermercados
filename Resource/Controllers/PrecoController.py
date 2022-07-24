@@ -25,27 +25,44 @@ class PrecoController:
 
     # CRUD
     def criar_preco(self, produto):
-        self.__tela_preco.exibir_mensagem('FORMULÁRIO DE PREÇO: ')
-        dados_preco = self.__tela_preco.cadastrar_preco_formulario()
-        if dados_preco:
-            dados_preco['usuario'] = self.__sistema.usuario_sessao
-            dados_preco['data'] = datetime.today().strftime('%d/%m/%Y')
-            dados_preco['produto'] = produto
-            dados_preco['qualificadores'] = produto.qualificadores
-            dados_preco['contador'] = 1
-            novo_preco = Preco(
-                dados_preco['valor'],
-                dados_preco['data'],
-                dados_preco['produto'],
-                dados_preco['qualificadores'],
-                dados_preco['usuario'],
-                dados_preco['supermercado']
-            )
-            self.adicionar_preco_lista(novo_preco)
-            self.__tela_preco.exibir_mensagem('Preço informado com sucesso!')
-            self.__tela_preco.continuar()
-            return novo_preco
-        return False
+        try:
+            lista_supermercados = {}
+            supermercados = self.sistema.supermercado_controller.lista_supermercados
+            print(supermercados)
+            if supermercados:
+                for sup in self.sistema.supermercado_controller.lista_supermercados:
+                    key = sup.nome + ' - ' + sup.endereco
+                    lista_supermercados[key] = sup
+                supermercados = [k for k in lista_supermercados]
+                dados_preco = self.__tela_preco.cadastrar_preco_formulario(supermercados)
+                if dados_preco:
+                    supermercado = lista_supermercados[dados_preco['supermercado']]
+                    dados_preco['supermercado'] = supermercado
+                    dados_preco['usuario'] = self.__sistema.usuario_sessao
+                    dados_preco['data'] = datetime.today().strftime('%d/%m/%Y')
+                    dados_preco['produto'] = produto
+                    dados_preco['qualificadores'] = produto.qualificadores
+                    dados_preco['contador'] = 1
+                    novo_preco = Preco(
+                        dados_preco['valor'],
+                        dados_preco['data'],
+                        dados_preco['produto'],
+                        dados_preco['qualificadores'],
+                        dados_preco['usuario'],
+                        dados_preco['supermercado']
+                    )
+                    self.adicionar_preco_lista(novo_preco)
+                    self.__tela_preco.exibir_mensagem('Preço informado com sucesso!')
+                    return novo_preco
+            else:
+                self.__tela_preco.exibir_mensagem('Não encontramos nenhum supermercado cadastrado')
+
+            return False
+        except Exception:
+            self.__tela_preco.exibir_mensagem('Não foi possível salvar este preço. '
+                                                      'Tente novamente!')
+            return False
+
 
     def listar_precos(self, lista_precos = None):
         if not lista_precos:
