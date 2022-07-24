@@ -1,12 +1,13 @@
 from Resource.Controllers.AbstractUsuarioController import AbstratcUsuarioController
 from Resource.Models.PessoaFisica import PessoaFisica
 from Resource.Views.PessoaFisicaTela import PessoaFisicaTela
+from Resource.DAO.PessoaFisicaDAO import PessoaFisicaDAO
 
 
 class PessoaFisicaController(AbstratcUsuarioController):
     def __init__(self, sistema):
         self.__pessoa_fisica_tela = PessoaFisicaTela()
-        self.__lista_pessoas_fisicas = []
+        self.__pessoa_fisica_dao = PessoaFisicaDAO()
         self.__ON = True
         self.__menu_opcoes = {
             'Editar Usuário': self.alterar_usuario,
@@ -22,8 +23,8 @@ class PessoaFisicaController(AbstratcUsuarioController):
         return self.__pessoa_fisica_tela
 
     @property
-    def lista_pessoas_fisicas(self):
-        return self.__lista_pessoas_fisicas
+    def pessoa_fisica_dao(self):
+        return self.__pessoa_fisica_dao
 
     @property
     def ON(self):
@@ -66,7 +67,7 @@ class PessoaFisicaController(AbstratcUsuarioController):
                 self.__pessoa_fisica_tela.exibir_mensagem('Usuário excluído com sucesso!')
 
     def listar_usuarios(self):
-        self.__pessoa_fisica_tela.exibir_lista_usuarios(self.__lista_pessoas_fisicas)
+        self.__pessoa_fisica_tela.exibir_lista_usuarios(self.__pessoa_fisica_dao.get_all())
 
     def ver_conta(self):
         usuario = self.__sistema.usuario_sessao
@@ -74,19 +75,18 @@ class PessoaFisicaController(AbstratcUsuarioController):
 
     def adicionar_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaFisica) and \
-                (usuario not in self.__lista_pessoas_fisicas):
-            self.__lista_pessoas_fisicas.append(usuario)
+                (usuario not in self.__pessoa_fisica_dao.get_all()):
+            self.__pessoa_fisica_dao.add(usuario)
 
     def remover_usuario_lista(self, usuario):
         if isinstance(usuario, PessoaFisica):
-            if usuario in self.__lista_pessoas_fisicas:
-                self.__lista_pessoas_fisicas.remove(usuario)
+            self.__pessoa_fisica_dao.remove(usuario)
 
     def logar(self):
         dados = self.__pessoa_fisica_tela.logar_formulario()
 
         # Procura por nome e senha
-        for usuario in self.__lista_pessoas_fisicas:
+        for usuario in self.__pessoa_fisica_dao.get_all():
             if (usuario.nome == dados["nome"]) and (usuario.email == dados["email"]):
                 return usuario
         else:

@@ -1,19 +1,19 @@
+from Resource.DAO.PessoaFisicaDAO import PessoaFisicaDAO
 from Resource.Models.Preco import Preco
 from Resource.Views.PrecoTela import PrecoTela
 from datetime import datetime
-
-
+from Resource.DAO.PrecoDAO import PrecoDAO
 
 class PrecoController:
     def __init__(self, sistema):
-        self.__lista_precos = []
+        self.__preco_dao = PrecoDAO()
         self.__sistema = sistema
         self.__tela_preco = PrecoTela(self)
 
     #  GETTERS
     @property
-    def lista_precos(self):
-        return self.__lista_precos
+    def preco_dao(self):
+        return self.__preco_dao
 
     @property
     def sistema(self):
@@ -27,10 +27,10 @@ class PrecoController:
     def criar_preco(self, produto):
         try:
             lista_supermercados = {}
-            supermercados = self.sistema.supermercado_controller.lista_supermercados
+            supermercados = self.sistema.supermercado_controller.supermercado_dao.get_all()
             print(supermercados)
             if supermercados:
-                for sup in self.sistema.supermercado_controller.lista_supermercados:
+                for sup in self.sistema.supermercado_controller.supermercado_dao.get_all():
                     key = sup.nome + ' - ' + sup.endereco
                     lista_supermercados[key] = sup
                 supermercados = [k for k in lista_supermercados]
@@ -58,7 +58,8 @@ class PrecoController:
                 self.__tela_preco.exibir_mensagem('Não encontramos nenhum supermercado cadastrado')
 
             return False
-        except Exception:
+        except Exception as e:
+            print(e)
             self.__tela_preco.exibir_mensagem('Não foi possível salvar este preço. '
                                                       'Tente novamente!')
             return False
@@ -66,7 +67,8 @@ class PrecoController:
 
     def listar_precos(self, lista_precos = None):
         if not lista_precos:
-            lista_precos = self.__lista_precos
+            lista_precos = self.__preco_dao.get_all()
+
         precos = [v.supermercado.nome
                   + ' (' + v.supermercado.endereco + ')'
                   + ' - R$' + v.valor
@@ -87,14 +89,14 @@ class PrecoController:
     def buscar_precos_supermercados(self):
         precos_supermercado = []
         usuario = self.__sistema.usuario_sessao
-        for preco in self.__lista_precos:
+        for preco in self.__preco_dao.get_all():
             if preco.supermercado == usuario.supermercado:
                 precos_supermercado.append(preco)
 
         return precos_supermercado
 
     def escolher_preco(self):
-        precos = self.__lista_precos
+        precos = self.__preco_dao.get_all()
         dados = [{'produto': v.produto.nome
                   + ' (' + v.produto.qualificadores[0].nome
                   + ' e ' + v.produto.qualificadores[1].nome + ') ',
@@ -108,23 +110,22 @@ class PrecoController:
 
     def adicionar_preco_lista(self, preco):
         if isinstance(preco, Preco):
-            if preco not in self.__lista_precos:
-                self.__lista_precos.append(preco)
+            if preco not in self.__preco_dao.get_all():
+                self.__preco_dao.add(preco)
 
     def remover_preco_lista(self, preco):
         if isinstance(preco, Preco):
-            if preco in self.__lista_precos:
-                self.__lista_precos.remove(preco)
+            self.__preco_dao.remove(preco)
 
     def incrementar_contador(self, preco):
         if isinstance(preco, Preco):
-            if preco in self.__lista_precos:
+            if preco in self.__preco_dao.get_all():
                 self.__contador += 1
             else:
                 self.__contador = 1
 
     def colaborar_precos(self):
-        lista_precos = self.__lista_precos
+        lista_precos = self.__preco_dao.get_all()
         precos = [{'produto': v.produto.nome
                   + ' (' + v.produto.qualificadores[0].nome
                   + ' e ' + v.produto.qualificadores[1].nome + ') ',

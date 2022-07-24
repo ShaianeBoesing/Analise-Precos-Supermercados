@@ -1,11 +1,12 @@
 from Resource.Models.Produto import Produto
 from Resource.Views.ProdutoTela import ProdutoTela
+from Resource.DAO.ProdutoDAO import ProdutoDAO
 
 
 class ProdutoController:
     def __init__(self, sistema):
         self.__tela_produto = ProdutoTela(self)
-        self.__lista_produtos = []
+        self.__produto_dao = ProdutoDAO()
         self.__lista_qualificadores = []
         self.__sistema = sistema
         self.__menu_opcoes = {
@@ -26,8 +27,8 @@ class ProdutoController:
         return self.__tela_produto
 
     @property
-    def lista_produtos(self):
-        return self.__lista_produtos
+    def produto_dao(self):
+        return self.__produto_dao
 
     @property
     def lista_qualificadores(self):
@@ -45,7 +46,7 @@ class ProdutoController:
     def criar_produto(self):
         try:
             lista_categorias = {}
-            for cat in self.__sistema.categoria_controller.lista_categorias:
+            for cat in self.__sistema.categoria_controller.categoria_dao.get_all():
                 lista_categorias[cat.nome] = cat
 
             categorias =  [k for k in lista_categorias]
@@ -79,7 +80,7 @@ class ProdutoController:
                 self.__tela_produto.exibir_mensagem('Produto excluído com sucesso!')
 
     def listar_produtos(self):
-        lista_produtos = self.__lista_produtos
+        lista_produtos = self.__produto_dao.get_all()
         produtos = [{'nome': v.nome,
                      'qualificadores': v.qualificadores,
                      'categoria':v.categoria.nome} for v in lista_produtos]
@@ -90,7 +91,7 @@ class ProdutoController:
         opcao = self.escolher_precos_produtos_por_supermercado()
 
     def escolher_produto(self):
-        produtos = self.__lista_produtos
+        produtos = self.__produto_dao.get_all()
         dados = [v.nome
                  + ' '
                  + v.qualificadores[0].nome
@@ -123,13 +124,12 @@ class ProdutoController:
 
     def adicionar_produto_lista(self, produto):
         if isinstance(produto, Produto):
-            if produto not in self.__lista_produtos:
-                self.__lista_produtos.append(produto)
+            if produto not in self.__produto_dao.get_all():
+                self.__produto_dao.add(produto)
 
     def remover_produto_lista(self, produto):
         if isinstance(produto, Produto):
-            if produto in self.__lista_produtos:
-                self.__lista_produtos.remove(produto)
+            self.__produto_dao.remove(produto)
 
     def listar_qualificadores(self):
         self.__tela_produto.exibir_lista_qualificadores(self.__lista_qualificadores)

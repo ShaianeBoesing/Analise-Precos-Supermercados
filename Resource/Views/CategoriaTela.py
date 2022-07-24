@@ -70,6 +70,7 @@ class CategoriaTela(AbstractTela):
         total_categorias = len(categorias)
         lista_cat = []
         if total_categorias:
+            print(categorias)
             for cat in categorias:
                 lista_cat.append([sg.Text(' - ' + cat, size=(15, 1))])
 

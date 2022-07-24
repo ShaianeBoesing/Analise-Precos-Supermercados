@@ -1,12 +1,12 @@
 from Resource.Models.Supermercado import Supermercado
 from Resource.Views.SupermercadoTela import SupermercadoTela
-
+from Resource.DAO.SupermercadoDAO import SupermercadoDAO
 
 class SupermercadoController:
 
     def __init__(self):
         self.__ON = True
-        self.__lista_supermercados = []
+        self.__supermercado_dao = SupermercadoDAO()
         self.__tela_supermercado = SupermercadoTela(self)
         self.__menu_opcoes = {
             'Cadastrar Supermercado': self.criar_supermercado,
@@ -18,8 +18,8 @@ class SupermercadoController:
 
     # GETTERS
     @property
-    def lista_supermercados(self):
-        return self.__lista_supermercados
+    def supermercado_dao(self):
+        return self.__supermercado_dao
 
     # CRUD
     def criar_supermercado(self):
@@ -51,13 +51,13 @@ class SupermercadoController:
                 self.__tela_supermercado.exibir_mensagem('Supermercado excluído com sucesso!')
 
     def listar_supermercados(self):
-        lista_supermercados = self.__lista_supermercados
+        lista_supermercados = self.__supermercado_dao.get_all()
         supermercado = [{'nome': v.nome, 'endereco': v.endereco} for v in lista_supermercados]
         self.__tela_supermercado.exibir_listas_supermercados(supermercado)
 
     # OUTROS MÉTODOS
     def escolher_supermercado(self):
-        supermercados = self.__lista_supermercados
+        supermercados = self.__supermercado_dao.get_all()
         dados = [v.nome for v in supermercados]
         opcao = self.__tela_supermercado.escolher_supermercado(dados)
         if opcao is not None:
@@ -66,14 +66,12 @@ class SupermercadoController:
 
     def adicionar_supermercado_lista(self, supermercado):
         if isinstance(supermercado, Supermercado):
-            if supermercado not in self.__lista_supermercados:
-                self.__lista_supermercados.append(supermercado)
+            if supermercado not in self.__supermercado_dao.get_all():
+                self.__supermercado_dao.add(supermercado)
 
     def remover_supermercado_lista(self, supermercado):
         if isinstance(supermercado, Supermercado):
-            if supermercado in self.__lista_supermercados:
-                self.__lista_supermercados.remove(supermercado)
-                # Remover Funcionários deste supermercado
+            self.__supermercado_dao.remove(supermercado)
 
     def listar_menus(self):
         self.__ON = True

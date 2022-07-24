@@ -2,7 +2,7 @@ from Resource.Models.Qualificador import Qualificador
 from Resource.Models.Preco import Preco
 
 
-class Produto:
+class Produto():
     def __init__(self, nome: str, descricao: str, qualificadores: str, categoria: str):
         self.__nome = nome
         self.__descricao = descricao

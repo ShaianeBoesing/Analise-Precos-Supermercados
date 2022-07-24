@@ -132,7 +132,7 @@ class ProdutoTela(AbstractTela):
 
             return True
         else:
-            print('Não há produtos cadastrados!')
+            self.exibir_mensagem('Não há produtos cadastrados!')
             return False
 
     def exibir_lista_qualificadores(self, qualificadores):
