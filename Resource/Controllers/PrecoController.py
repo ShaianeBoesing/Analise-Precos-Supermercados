@@ -67,17 +67,21 @@ class PrecoController:
     def listar_precos(self, lista_precos = None):
         if not lista_precos:
             lista_precos = self.__lista_precos
-        self.__tela_preco.exibir_lista_precos(lista_precos)
-        self.__tela_preco.continuar()
+        precos = [v.supermercado.nome
+                  + ' (' + v.supermercado.endereco + ')'
+                  + ' - R$' + v.valor
+                  + ' - ' + str(v.contador) + ' votos'
+                  for v in lista_precos]
+        self.__tela_preco.exibir_lista_precos(precos)
 
     def excluir_preco(self):
         preco = self.escolher_preco()
         if preco:
             confirma = self.__tela_preco.exibir_confirmacao_exclusao()
             if confirma:
+                preco.produto.remove_preco(preco)
                 self.remover_preco_lista(preco)
                 self.__tela_preco.exibir_mensagem('Preço excluído com sucesso!')
-                self.__tela_preco.continuar()
 
     #   OUTROS MÉTODOS
     def buscar_precos_supermercados(self):
@@ -91,9 +95,15 @@ class PrecoController:
 
     def escolher_preco(self):
         precos = self.__lista_precos
-        opcao = self.__tela_preco.escolher_produto(precos)
-        if opcao != False:
-            return precos[opcao - 1]
+        dados = [{'produto': v.produto.nome
+                  + ' (' + v.produto.qualificadores[0].nome
+                  + ' e ' + v.produto.qualificadores[1].nome + ') ',
+                  'supermercado': v.supermercado.nome
+                  + ' (' + v.supermercado.endereco + ')',
+                  'valor': ' R$ ' + v.valor} for v in precos]
+        opcao = self.__tela_preco.escolher_preco(dados)
+        if opcao is not None:
+            return precos[opcao]
         return False
 
     def adicionar_preco_lista(self, preco):
@@ -112,3 +122,16 @@ class PrecoController:
                 self.__contador += 1
             else:
                 self.__contador = 1
+
+    def colaborar_precos(self):
+        lista_precos = self.__lista_precos
+        precos = [{'produto': v.produto.nome
+                  + ' (' + v.produto.qualificadores[0].nome
+                  + ' e ' + v.produto.qualificadores[1].nome + ') ',
+                  'supermercado': v.supermercado.nome
+                  + ' (' + v.supermercado.endereco + ')',
+                  'valor': ' R$ ' + v.valor} for v in lista_precos]
+        selecionados = self.__tela_preco.colaborar_precos_formulario(precos)
+        if selecionados:
+            for opcao in selecionados:
+                lista_precos[opcao].confirma_preco()
