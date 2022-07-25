@@ -38,10 +38,11 @@ class SupermercadoController:
         if supermercado:
             sup_dados = {'nome': supermercado.nome, 'endereco': supermercado.endereco}
             dados_supermercado = self.__tela_supermercado.editar_supermercado_formulario(sup_dados)
-            supermercado.nome = dados_supermercado['nome']
-            supermercado.endereco =  dados_supermercado['endereco']
-            self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
-            return supermercado
+            if dados_supermercado:
+                supermercado.nome = dados_supermercado['nome']
+                supermercado.endereco =  dados_supermercado['endereco']
+                self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
+                return supermercado
         return False
 
     def excluir_supermercado(self):
