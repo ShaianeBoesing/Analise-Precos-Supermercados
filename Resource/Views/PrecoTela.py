@@ -24,7 +24,9 @@ class PrecoTela(AbstractTela):
             button, response = self.open()
             self.close()
             if button == "Confirmar":
-                return response
+                if (response['valor'] != ''):
+                    return response
+                raise EmptyStringException
 
             return False
 

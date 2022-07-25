@@ -1,4 +1,9 @@
+import re
+
 import PySimpleGUI as sg
+
+from Resource.Exceptions.EmptyStringException import EmptyStringException
+from Resource.Exceptions.NotCPFFormatException import NotCPFFormatException
 from Resource.Views.AbstractTela import AbstractTela
 
 class PessoaFisicaTela(AbstractTela):
@@ -19,7 +24,16 @@ class PessoaFisicaTela(AbstractTela):
         self.close()
 
         if button == "Confirmar":
-            return response
+            if (response['nome'] != '') and \
+                    (response['email'] != '') and\
+                    (response['cpf'] != ''):
+                regex_syntax = r"\D"
+                response['cpf'] = re.sub(regex_syntax, "", response['cpf'])
+                print(response['cpf'])
+                if (len(response['cpf']) == 11) and (response['cpf'].isnumeric()):
+                    return response
+                raise NotCPFFormatException
+            raise EmptyStringException
 
         return False
 

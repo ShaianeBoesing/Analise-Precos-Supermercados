@@ -1,3 +1,4 @@
+from Resource.Exceptions.EmptyStringException import EmptyStringException
 from Resource.Models.Produto import Produto
 from Resource.Views.ProdutoTela import ProdutoTela
 from Resource.DAO.ProdutoDAO import ProdutoDAO
@@ -66,6 +67,8 @@ class ProdutoController:
                 self.__tela_produto.exibir_mensagem("Produto cadastrado com sucesso!")
             else:
                 raise Exception();
+        except EmptyStringException:
+            self.__tela_produto.exibir_mensagem("Texto vazio!")
         except Exception as e:
             print(e)
             self.__tela_produto.exibir_mensagem('Não foi possível cadastrar seu produto')

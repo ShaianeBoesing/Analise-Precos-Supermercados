@@ -16,8 +16,11 @@ class CategoriaTela(AbstractTela):
 
         button, response = self.open()
         self.close()
+
         if button == "Confirmar":
-            return response
+            if response['nome'] != '':
+                return response
+            raise EmptyStringException
 
         return False
 
@@ -32,7 +35,9 @@ class CategoriaTela(AbstractTela):
         button, response = self.open()
         self.close()
         if button == "Confirmar":
-            return response
+            if response['nome'] != '':
+                return response
+            raise EmptyStringException
 
         return False
 

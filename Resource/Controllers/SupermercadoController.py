@@ -1,3 +1,4 @@
+from Resource.Exceptions.EmptyStringException import EmptyStringException
 from Resource.Models.Supermercado import Supermercado
 from Resource.Views.SupermercadoTela import SupermercadoTela
 from Resource.DAO.SupermercadoDAO import SupermercadoDAO
@@ -23,27 +24,39 @@ class SupermercadoController:
 
     # CRUD
     def criar_supermercado(self):
-        dados_supermercado = self.__tela_supermercado.cadastrar_supermercado_formulario()
-        if dados_supermercado:
-            novo_supermercado = Supermercado(
-                dados_supermercado['nome'],
-                dados_supermercado['endereco']
-            )
-            self.adicionar_supermercado_lista(novo_supermercado)
-            self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
+        try:
+            dados_supermercado = self.__tela_supermercado.cadastrar_supermercado_formulario()
+            if dados_supermercado:
+                novo_supermercado = Supermercado(
+                    dados_supermercado['nome'],
+                    dados_supermercado['endereco']
+                )
+                self.adicionar_supermercado_lista(novo_supermercado)
+                self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
+        except EmptyStringException:
+            self.__tela_supermercado.exibir_mensagem("Texto vazio!")
+        except:
+            self.__tela_supermercado.exibir_mensagem("Não foi possível cadastrar!")
 
 
     def alterar_supermercado(self):
-        supermercado = self.escolher_supermercado()
-        if supermercado:
-            sup_dados = {'nome': supermercado.nome, 'endereco': supermercado.endereco}
-            dados_supermercado = self.__tela_supermercado.editar_supermercado_formulario(sup_dados)
-            if dados_supermercado:
-                supermercado.nome = dados_supermercado['nome']
-                supermercado.endereco =  dados_supermercado['endereco']
-                self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
-                return supermercado
+        try:
+            supermercado = self.escolher_supermercado()
+            if supermercado:
+                sup_dados = {'nome': supermercado.nome, 'endereco': supermercado.endereco}
+                dados_supermercado = self.__tela_supermercado.editar_supermercado_formulario(sup_dados)
+                if dados_supermercado:
+                    supermercado.nome = dados_supermercado['nome']
+                    supermercado.endereco =  dados_supermercado['endereco']
+                    self.__tela_supermercado.exibir_mensagem("Supermercado alterado com sucesso!")
+                    return supermercado
+        except EmptyStringException:
+            self.__tela_supermercado.exibir_mensagem("Texto vazio!")
+        except:
+            self.__tela_supermercado.exibir_mensagem("Não foi possível cadastrar!")
+
         return False
+
 
     def excluir_supermercado(self):
         supermercado = self.escolher_supermercado()

@@ -1,3 +1,4 @@
+from Resource.Exceptions.EmptyStringException import EmptyStringException
 from Resource.Models.Categoria import Categoria
 from Resource.Views.CategoriaTela import CategoriaTela
 from Resource.DAO.CategoriaDAO import CategoriaDAO
@@ -31,12 +32,17 @@ class CategoriaController:
 
     # CRUD
     def criar_categoria(self):
-        dados_categoria = self.__tela_categoria.cadastrar_categoria()
-        nova_categoria = Categoria(
-            dados_categoria['nome'],
-        )
-        self.adicionar_categoria_lista(nova_categoria)
-        self.__tela_categoria.exibir_mensagem("Categoria cadastrada com sucesso!")
+        try:
+            dados_categoria = self.__tela_categoria.cadastrar_categoria()
+            nova_categoria = Categoria(
+                dados_categoria['nome'],
+            )
+            self.adicionar_categoria_lista(nova_categoria)
+            self.__tela_categoria.exibir_mensagem("Categoria cadastrada com sucesso!")
+        except EmptyStringException:
+            self.__tela_categoria.exibir_mensagem("Texto vazio!")
+        except:
+            self.__tela_categoria.exibir_mensagem("Não foi possível cadastrar!")
 
     def listar_categorias(self):
         lista_categorias = self.__categoria_dao.get_all()
@@ -44,15 +50,20 @@ class CategoriaController:
         self.__tela_categoria.lista_categorias(categorias)
 
     def alterar_categoria(self):
-        categoria = self.escolher_categoria()
-        if categoria:
-            cat_dados = {'nome': categoria.nome}
-            dados_categoria = self.__tela_categoria.alterar_categoria(cat_dados)
-            if dados_categoria:
-                categoria.nome = dados_categoria['nome']
-                self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
-                return categoria
-        return False
+        try:
+            categoria = self.escolher_categoria()
+            if categoria:
+                cat_dados = {'nome': categoria.nome}
+                dados_categoria = self.__tela_categoria.alterar_categoria(cat_dados)
+                if dados_categoria:
+                    categoria.nome = dados_categoria['nome']
+                    self.__tela_categoria.exibir_mensagem("Categoria alterada com sucesso!")
+                    return categoria
+            return False
+        except EmptyStringException:
+            self.__tela_categoria.exibir_mensagem("Texto vazio!")
+        except:
+            self.__tela_categoria.exibir_mensagem("Não foi possível editar!")
 
     def excluir_categoria(self):
         categoria = self.escolher_categoria()

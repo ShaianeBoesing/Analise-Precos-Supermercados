@@ -19,7 +19,9 @@ class SupermercadoTela(AbstractTela):
         button, response = self.open()
         self.close()
         if button == "Confirmar":
-            return response
+            if (response['nome'] != '') and (response['endereco'] != ''):
+                return response
+            raise EmptyStringException
 
         return False
 
@@ -36,7 +38,9 @@ class SupermercadoTela(AbstractTela):
         button, response = self.open()
         self.close()
         if button == "Confirmar":
-            return response
+            if (response['nome'] != '') and (response['endereco'] != ''):
+                return response
+            raise EmptyStringException
 
         return False
 

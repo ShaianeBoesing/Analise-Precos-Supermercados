@@ -1,4 +1,5 @@
 from Resource.DAO.PessoaFisicaDAO import PessoaFisicaDAO
+from Resource.Exceptions.EmptyStringException import EmptyStringException
 from Resource.Models.Preco import Preco
 from Resource.Views.PrecoTela import PrecoTela
 from datetime import datetime
@@ -60,6 +61,8 @@ class PrecoController:
                 self.__tela_preco.exibir_mensagem('Não encontramos nenhum supermercado cadastrado')
 
             return False
+        except EmptyStringException:
+            self.__tela_preco.exibir_mensagem("Texto vazio!")
         except Exception as e:
             print(e)
             self.__tela_preco.exibir_mensagem('Não foi possível salvar este preço. '

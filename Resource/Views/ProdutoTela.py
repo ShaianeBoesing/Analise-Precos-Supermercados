@@ -28,7 +28,12 @@ class ProdutoTela(AbstractTela):
         response['qualificadores'] = [response['qualificador1'],response['qualificador2']]
         self.close()
         if button == "Confirmar":
-            return response
+            if (response['nome'] != '') and \
+                    (response['descricao'] != '') and \
+                    (response['qualificador1'] != '') and \
+                    (response['qualificador2'] != ''):
+                return response
+            raise EmptyStringException
 
         return False
 

@@ -1,4 +1,6 @@
 from Resource.Controllers.AbstractUsuarioController import AbstratcUsuarioController
+from Resource.Exceptions.EmptyStringException import EmptyStringException
+from Resource.Exceptions.NotCPFFormatException import NotCPFFormatException
 from Resource.Models.PessoaFisica import PessoaFisica
 from Resource.Views.PessoaFisicaTela import PessoaFisicaTela
 from Resource.DAO.PessoaFisicaDAO import PessoaFisicaDAO
@@ -36,8 +38,8 @@ class PessoaFisicaController(AbstratcUsuarioController):
 
     # CRUD
     def criar_usuario(self):
-        dados = self.__pessoa_fisica_tela.cadastrar_usuario_formulario()
         try:
+            dados = self.__pessoa_fisica_tela.cadastrar_usuario_formulario()
             novo_usuario = PessoaFisica(dados['nome'],
                                         dados['email'],
                                         dados['cpf'])
@@ -45,6 +47,10 @@ class PessoaFisicaController(AbstratcUsuarioController):
             self.adicionar_usuario_lista(novo_usuario)
             self.__pessoa_fisica_tela.exibir_mensagem('Usuário cadastrado com sucesso!')
 
+        except NotCPFFormatException as e:
+            self.__pessoa_fisica_tela.exibir_mensagem(e)
+        except EmptyStringException:
+            self.__pessoa_fisica_tela.exibir_mensagem("Texto vazio!")
         except Exception:
             self.__pessoa_fisica_tela.exibir_mensagem('Não foi possível criar seu usuário. '
                                                       'Tente novamente!')
