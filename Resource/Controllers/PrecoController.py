@@ -52,6 +52,8 @@ class PrecoController:
                         dados_preco['supermercado']
                     )
                     self.adicionar_preco_lista(novo_preco)
+                    produto.add_preco(novo_preco)
+                    self.__sistema.produto_controller.produto_dao.add(produto)
                     self.__tela_preco.exibir_mensagem('Preço informado com sucesso!')
                     return novo_preco
             else:
