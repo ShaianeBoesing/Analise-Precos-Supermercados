@@ -138,3 +138,4 @@ class PrecoController:
         if selecionados:
             for opcao in selecionados:
                 lista_precos[opcao].confirma_preco()
+                self.__sistema.produto_controller.produto_dao.add(lista_precos[opcao].produto)
