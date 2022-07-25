@@ -24,12 +24,14 @@ class SupermercadoController:
     # CRUD
     def criar_supermercado(self):
         dados_supermercado = self.__tela_supermercado.cadastrar_supermercado_formulario()
-        novo_supermercado = Supermercado(
-            dados_supermercado['nome'],
-            dados_supermercado['endereco']
-        )
-        self.adicionar_supermercado_lista(novo_supermercado)
-        self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
+        if dados_supermercado:
+            novo_supermercado = Supermercado(
+                dados_supermercado['nome'],
+                dados_supermercado['endereco']
+            )
+            self.adicionar_supermercado_lista(novo_supermercado)
+            self.__tela_supermercado.exibir_mensagem("Supermercado cadastrado com sucesso!")
+
 
     def alterar_supermercado(self):
         supermercado = self.escolher_supermercado()
