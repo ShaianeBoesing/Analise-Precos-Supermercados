@@ -13,7 +13,7 @@ class RelatoriosController:
     # RELATÓRIOS
 
     def produto_por_supermercado(self):
-        produtos = self.__sistema.produto_controller.lista_produtos
+        produtos = self.__sistema.produto_controller.produto_dao.get_all()
         dicionario = {}
         for produto in produtos:
             for preco in produto.precos:
