@@ -74,18 +74,6 @@ class PessoaFisicaTela(AbstractTela):
             self.exibir_mensagem('Não há usuários cadastrados!')
             return False
 
-    def exibir_confirmacao_exclusao(PessoaFisica):
-        print('Tem certeza que deseja excluir este usuário?')
-        print('1 - Sim')
-        print('0 - Não')
-        try:
-            confirma = int(input('Opção: '))
-            if not (0 <= confirma <= 1):
-                raise ValueError('Valor diferente de 0 e diferente de 1')
-            return confirma
-        except ValueError:
-            super().exibir_mensagem('Oops. Parece que você informou uma opção inválida. Tente novamente')
-
     def logar_formulario(self):
         layout = [
             [sg.Text('-------- LOGIN USUÁRIO ----------', font=("Helvica", 25))],
