@@ -56,11 +56,27 @@ class PessoaFisicaController(AbstratcUsuarioController):
                                                       'Tente novamente!')
 
     def alterar_usuario(self):
-        usuario = self.__sistema.usuario_sessao
-        dados = self.__pessoa_fisica_tela.editar_usuario()
-        usuario.nome = dados['nome']
-        usuario.email =  dados['email']
-        self.__pessoa_fisica_tela.exibir_mensagem("Usuário alterado com sucesso!")
+        try:
+            usuario = self.__sistema.usuario_sessao
+            usuario_dados = {
+                'nome': usuario.nome,
+                'email': usuario.email,
+                'cpf': usuario.cpf
+            }
+            dados = self.__pessoa_fisica_tela.editar_usuario(usuario_dados)
+            if dados:
+                self.__pessoa_fisica_dao.remove(usuario)
+                usuario.nome = dados['nome']
+                usuario.email =  dados['email']
+                self.__pessoa_fisica_dao.add(usuario)
+                self.__pessoa_fisica_tela.exibir_mensagem("Usuário alterado com sucesso!")
+        except NotCPFFormatException as e:
+            self.__pessoa_fisica_tela.exibir_mensagem(e)
+        except EmptyStringException:
+            self.__pessoa_fisica_tela.exibir_mensagem("Texto vazio!")
+        except Exception:
+            self.__pessoa_fisica_tela.exibir_mensagem('Não foi possível alterar seu usuário. '
+                                                      'Tente novamente!')
 
     def excluir_usuario(self):
         usuario = self.__sistema.usuario_sessao

@@ -38,19 +38,31 @@ class PessoaFisicaTela(AbstractTela):
         return False
 
 
-    def editar_usuario(self):
-        try:
-            nome = input('Nome: ')
-            email = input('Email: ')
-            data = {
-                'nome': nome,
-                'email': email
-            }
-            return data
+    def editar_usuario(self, usuario):
+        layout = [
+            [sg.Text('DADOS USUÁRIO', font=("Helvica", 18))],
+            [sg.Text('Nome:', size=(15, 1)), sg.InputText(usuario['nome'], key='nome')],
+            [sg.Text('Email:', size=(15, 1)), sg.InputText(usuario['email'], key='email')],
+            [sg.Text('CPF:', size=(15, 1)), sg.InputText(usuario['cpf'], key='cpf')],
+            [sg.Button('Confirmar'), sg.Cancel('Cancelar')]
+        ]
+        self.window = sg.Window('Edição Pessoa Física', element_justification='center').Layout(layout)
+        button, response = self.open()
+        self.close()
 
-        except ValueError as e:
-            print(e.args[0])
-            return False
+        if button == "Confirmar":
+            if (response['nome'] != '') and \
+                    (response['email'] != '') and\
+                    (response['cpf'] != ''):
+                regex_syntax = r"\D"
+                response['cpf'] = re.sub(regex_syntax, "", response['cpf'])
+                print(response['cpf'])
+                if (len(response['cpf']) == 11) and (response['cpf'].isnumeric()):
+                    return response
+                raise NotCPFFormatException
+            raise EmptyStringException
+
+        return False
 
     def exibir_lista_usuarios(self, usuarios: list):
         total_usuario = len(usuarios)
