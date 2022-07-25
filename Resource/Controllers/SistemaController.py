@@ -26,10 +26,8 @@ class SistemaController:
         self.__categoria_controller = CategoriaController()
         self.__relatorios_controller = RelatoriosController(self)
         self.__menu_opcoes_acesso = {
-            'Acessar como Pessoa Jurídica': self.__pessoas_juridica_controller.logar,
-            'Acessar como Pessoa Física': self.__pessoas_fisica_controller.logar,
-            'Cadastrar Pessoa Jurídica': self.__pessoas_juridica_controller.criar_usuario,
-            'Cadastrar Pessoa Física': self.__pessoas_fisica_controller.criar_usuario,
+            'Acessar': self.__pessoas_fisica_controller.logar,
+            'Cadastrar': self.__pessoas_fisica_controller.criar_usuario,
             'Sair': self.sair
         }
         self.__menu_opcoes_pessoa_juridica = {
