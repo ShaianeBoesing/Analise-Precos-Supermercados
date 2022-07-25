@@ -39,8 +39,6 @@ class CategoriaController:
         self.__tela_categoria.exibir_mensagem("Categoria cadastrada com sucesso!")
 
     def listar_categorias(self):
-        self.__tela_categoria.lista_categorias(self.__categoria_dao.get_all())
-        self.__tela_categoria.continuar()
         lista_categorias = self.__categoria_dao.get_all()
         categorias = [v.nome for v in lista_categorias]
         self.__tela_categoria.lista_categorias(categorias)
