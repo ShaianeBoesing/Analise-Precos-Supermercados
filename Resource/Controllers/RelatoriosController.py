@@ -25,7 +25,6 @@ class RelatoriosController:
                     if produto not in dicionario[supermercado]:
                         dicionario[supermercado].append(produto)
         self.__tela_relatorios.exibir_produto_por_supermercado(dicionario)
-        self.__tela_relatorios.continuar()
 
     def listar_menus(self):
         self.__ON = True
