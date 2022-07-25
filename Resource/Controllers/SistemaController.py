@@ -17,11 +17,6 @@ class SistemaController:
     def __init__(self):
         self.__ON = True
         self.__usuario_sessao = None
-        # self.__usuario_sessao =  PessoaFisica('',
-        #                                 '',
-        #                                 '')
-        # self.__categoria_pronta = Categoria('categoria 1')
-        # self.__produto_pronto = Produto('Pão', 'descrição', ['doce', 'de leite'], self.__categoria_pronta)
         self.__sistema_tela = SistemaTela()
         self.__supermercado_controller = SupermercadoController()
         self.__produto_controller = ProdutoController(self)
@@ -30,9 +25,6 @@ class SistemaController:
         self.__preco_controller = PrecoController(self)
         self.__categoria_controller = CategoriaController()
         self.__relatorios_controller = RelatoriosController(self)
-        # self.__produto_controller.adicionar_produto_lista(self.__produto_pronto)
-        # self.__categoria_controller.adicionar_categoria_lista(self.__categoria_pronta)
-        # self.__pessoas_fisica_controller.adicionar_usuario_lista(self.__usuario_sessao)
         self.__menu_opcoes_acesso = {
             'Acessar como Pessoa Jurídica': self.__pessoas_juridica_controller.logar,
             'Acessar como Pessoa Física': self.__pessoas_fisica_controller.logar,
