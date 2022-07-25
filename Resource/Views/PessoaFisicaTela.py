@@ -39,15 +39,25 @@ class PessoaFisicaTela(AbstractTela):
             return False
 
     def exibir_lista_usuarios(self, usuarios: list):
-        super().exibir_mensagem("Lista de Usuários")
-        total_usuarios = len(usuarios)
+        total_usuario = len(usuarios)
+        lista_usuarios = []
+        if total_usuario:
+            for user in usuarios:
+                lista_usuarios.append([sg.Text(user.nome + ' | ' + user.email, size=(15, 1))])
+                lista_usuarios.append([sg.Text('-'*70, size=(15, 1))])
 
-        if total_usuarios:
-            for i in range(total_usuarios):
-                print(i + 1, '- ', usuarios[i].nome, ' | ', usuarios[i].email)
+            layout = [
+                [sg.Text('LISTA DE USUÁRIOS', font=("Helvica", 25))],
+                lista_usuarios,
+                [sg.Button('OK')]
+            ]
+            self.window = sg.Window('Lista Usuários').Layout(layout)
+            self.open()
+            self.close()
+
             return True
         else:
-            print('Não há usuários cadastrados!')
+            self.exibir_mensagem('Não há usuários cadastrados!')
             return False
 
     def exibir_confirmacao_exclusao(PessoaFisica):

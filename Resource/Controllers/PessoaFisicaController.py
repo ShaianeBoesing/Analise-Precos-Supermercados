@@ -67,7 +67,10 @@ class PessoaFisicaController(AbstratcUsuarioController):
                 self.__pessoa_fisica_tela.exibir_mensagem('Usuário excluído com sucesso!')
 
     def listar_usuarios(self):
-        self.__pessoa_fisica_tela.exibir_lista_usuarios(self.__pessoa_fisica_dao.get_all())
+        lista_usuarios = self.__pessoa_fisica_dao.get_all()
+        usuarios = [{'nome': v.nome,
+                     'email': v.email} for v in lista_usuarios]
+        self.__pessoa_fisica_tela.exibir_lista_usuarios(usuarios)
 
     def ver_conta(self):
         usuario = self.__sistema.usuario_sessao
